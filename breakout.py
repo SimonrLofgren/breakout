@@ -1,5 +1,6 @@
 import pygame
 import random
+from time import sleep
 #import lvls
 #from settings import *
 WHITE = (255, 255, 255)
@@ -10,7 +11,6 @@ BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
 MAGENTA = (255, 0, 255)
 CYAN = (0, 255, 255)
-#global colors
 colors = [WHITE, BLUE, GREEN, RED, YELLOW, MAGENTA, CYAN]
 SCREEN_WIDTH = 800
 SCREEN_HIGHT = 600
@@ -18,6 +18,8 @@ FPS = 120
 MAX_RADIUS = 40
 BRICK_SIZE_X = 70
 BRICK_SIZE_Y = 20
+SCORE = 0
+DIFFICULTY = 1
 
 class Object:
     def __init__(self, x, y, color, screen, is_bouncy, is_indestructable):
@@ -141,9 +143,45 @@ class Lvl:
     def return_bg_color(self):
         return self.bg_color
 
-def lvl_1(lvl_screen):
+def lvl_prompt(screen, lvl):
+    screen.fill(BLACK)
+    color = random.choice(colors)
+    font = pygame.font.Font('freesansbold.ttf', 132)
+    text = font.render("LEVEL "+str(lvl), True, color, BLACK)
+    textRect = text.get_rect()
+    textRect.center = (SCREEN_WIDTH//2, SCREEN_HIGHT//2)
+    screen.blit(text, textRect)
+    pygame.display.update()
+    sleep(3)
+
+def score_prompt(screen):
+    screen.fill(BLACK)
+    font = pygame.font.Font('freesansbold.ttf', 52)
+    text = font.render("CURRENT SCORE: " + str(SCORE), True, RED, BLACK)
+    textRect = text.get_rect()
+    textRect.center = (SCREEN_WIDTH//2, SCREEN_HIGHT//2)
+    screen.blit(text, textRect)
+    pygame.display.update()
+    sleep(3)
+
+def lvl_test(lvl_screen):
     screen = lvl_screen
     y = 0
+    lines = 1
+    objects = []
+    for l in range(lines):
+        x = 200
+        y += 30
+        color = colors[l+1]
+        for _ in range(1):
+            obst = Rect(x, y, BRICK_SIZE_X, BRICK_SIZE_Y, color, screen, True, False)
+            objects.append(obst)
+            x += 80
+    return objects
+
+def lvl_1(lvl_screen):
+    screen = lvl_screen
+    y = 10
     lines = 6
     objects = []
     for l in range(lines):
@@ -158,7 +196,7 @@ def lvl_1(lvl_screen):
 
 def lvl_2(lvl_screen):
     screen = lvl_screen
-    y = 0
+    y = 10
     lines = 4
     brick_color = [RED, RED, BLUE, BLUE]
     objects = []
@@ -172,7 +210,7 @@ def lvl_2(lvl_screen):
     return objects
 
 def init_lvl(screen):
-    list_of_levels = [lvl_1(screen), lvl_2(screen)]
+    list_of_levels = [lvl_test(screen), lvl_1(screen), lvl_2(screen)]
     the_levels = []
     for l in range(len(list_of_levels)):
         lvl = Lvl(None, list_of_levels[l])
@@ -232,51 +270,70 @@ def if_is_bouncy(ball, obj, objects):
 
 def hit(obj, objects):
     if not Object.is_indestructable(obj):
+        global SCORE
         objects_copy = objects
         objects_copy.remove(obj)
+        SCORE += 50
         return objects_copy
 
-def run(bounce_brick, red_ball, objects, screen):
+def keeping_score(screen):
+    font = pygame.font.Font('freesansbold.ttf', 20)
+    text = font.render("Score: "+str(SCORE), True, WHITE, BLACK)
+    textRect = text.get_rect()
+    textRect.center = (70, 20)
+    screen.blit(text, textRect)
+
+
+def run(the_levels, screen):
     pygame.init()
     clock = pygame.time.Clock()
     running = True
+    in_level = True
+    current_level = 0
+    score = 0
     while running:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT:
-                    bounce_brick.x -= 20
-                if event.key == pygame.K_RIGHT:
-                    bounce_brick.x += 20
-        screen.fill(BLACK)
-        red_ball.Draw()
-        red_ball.Move()
-        obj_copy = objects
-        for obj in obj_copy:
-            if Rect.is_bouncy(obj):
-                obj.draw()
-                obj_copy = if_is_bouncy(red_ball, obj, objects)
-        pygame.display.update()
-        clock.tick(FPS)
+        objects = Lvl.return_bricks(the_levels[current_level])
+        lvl_prompt(screen, current_level + 1)
+        red_ball = Ball(200, 500, -DIFFICULTY, -DIFFICULTY, RED, 10, screen, False, True)
+        bounce_brick = create_bouncebrick(screen)
+        objects.append(red_ball)
+        objects.append(bounce_brick)
+        while in_level:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+                    in_level = False
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_LEFT:
+                        bounce_brick.x -= 20
+                    if event.key == pygame.K_RIGHT:
+                        bounce_brick.x += 20
+            screen.fill(BLACK)
+            red_ball.Draw()
+            red_ball.Move()
+            for obj in objects:
+                if Rect.is_bouncy(obj):
+                    obj.draw()
+                    if_is_bouncy(red_ball, obj, objects)
+            keeping_score(screen)
+            pygame.display.update()
+            clock.tick(FPS)
+            if len(objects) < 3:
+                current_level += 1
+                score_prompt(screen)
+                break
 
 def main():
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HIGHT))
     the_levels = init_lvl(screen)
-    
-    objects = Lvl.return_bricks(the_levels[0])
+    run(the_levels, screen)
 
-
-    red_ball = Ball(200, 500, -1, -1, RED, 10, screen, False, True)
-    bounce_brick = create_bouncebrick(screen)
-    objects.append(red_ball)
-    objects.append(bounce_brick)
 
 #####
     # blue_rect = Rect(SCREEN_WIDTH // 2 - 50, SCREEN_HIGHT // 2 - 50, 100, 100, BLUE, screen, True)
     # objects.append(blue_rect)
 #####
-    run(bounce_brick, red_ball, objects, screen)
+    # run(the_levels, screen)
 
 if __name__ == "__main__":
     main()
