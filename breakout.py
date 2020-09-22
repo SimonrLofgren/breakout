@@ -130,22 +130,19 @@ class BounceBrick(Rect):
         super().__init__(x, y, width, height, color, screen, is_bouncy, is_indestructable)
 
 class Lvl:
-    def __init__(self, screen, color, bricks):
-        self.screen = screen
-        self.color = color
+    def __init__(self, bg_color, bricks):
+
+        self.bg_color = bg_color
         self.bricks = bricks
 
-    def create(self):
-        self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HIGHT))
-        self.bricks = lvl_1(self.screen)
+    def return_bricks(self):
         return self.bricks
 
-    def return_screen(self):
-        return self.screen
-
+    def return_bg_color(self):
+        return self.bg_color
 
 def lvl_1(lvl_screen):
-
+    screen = lvl_screen
     y = 0
     lines = 6
     objects = []
@@ -154,12 +151,33 @@ def lvl_1(lvl_screen):
         y += 30
         color = colors[l+1]
         for _ in range(9):
-            screen = lvl_screen
             obst = Rect(x, y, BRICK_SIZE_X, BRICK_SIZE_Y, color, screen, True, False)
             objects.append(obst)
             x += 80
     return objects
 
+def lvl_2(lvl_screen):
+    screen = lvl_screen
+    y = 0
+    lines = 4
+    brick_color = [RED, RED, BLUE, BLUE]
+    objects = []
+    for l in range(lines):
+        x = 50
+        y += 30
+        for _ in range(9):
+            obst = Rect(x, y, BRICK_SIZE_X, BRICK_SIZE_Y, brick_color[l], screen, True, False)
+            objects.append(obst)
+            x += 80
+    return objects
+
+def init_lvl(screen):
+    list_of_levels = [lvl_1(screen), lvl_2(screen)]
+    the_levels = []
+    for l in range(len(list_of_levels)):
+        lvl = Lvl(None, list_of_levels[l])
+        the_levels.append(lvl)
+    return the_levels
 
 def create_bouncebrick(screen):
     bounce_brick = BounceBrick(100, 550, 100, 20, WHITE, screen, True, True)
@@ -221,7 +239,6 @@ def hit(obj, objects):
 def run(bounce_brick, red_ball, objects, screen):
     pygame.init()
     clock = pygame.time.Clock()
-    #screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HIGHT))
     running = True
     while running:
         for event in pygame.event.get():
@@ -244,10 +261,11 @@ def run(bounce_brick, red_ball, objects, screen):
         clock.tick(FPS)
 
 def main():
-    list_of_levels = []
-    lvl = Lvl(None, None, None)
-    objects = Lvl.create(lvl)
-    screen = Lvl.return_screen(lvl)
+    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HIGHT))
+    the_levels = init_lvl(screen)
+    
+    objects = Lvl.return_bricks(the_levels[0])
+
 
     red_ball = Ball(200, 500, -1, -1, RED, 10, screen, False, True)
     bounce_brick = create_bouncebrick(screen)
