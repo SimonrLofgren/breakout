@@ -3,6 +3,7 @@ import random
 from time import sleep
 from lvls import *
 from settings import *
+from start_menu import start_prompt
 
 class Object:
     def __init__(self, x, y, color, screen, is_bouncy, is_indestructable):
@@ -294,7 +295,7 @@ def game_intro(screen, clock):
         # print(mouse)
 
         if 150 + 100 > mouse[0] > 150 and 450 + 50 > mouse[1] > 450:
-            pygame.draw.rect(screen, BRIGHT_GREEN, (150, 450, 100, 50))
+            pygame.draw.rect(screen, GREEN_BRIGHT, (150, 450, 100, 50))
         else:
             pygame.draw.rect(screen, GREEN, (150, 450, 100, 50))
 
@@ -303,7 +304,6 @@ def game_intro(screen, clock):
         textRect = "GO!"
         textRect.center = ((150 + (100 / 2)), (450 + (50 / 2)))
         screen.blit(textSurf, textRect)
-
         pygame.draw.rect(screen, RED, (550, 450, 100, 50))
 
         pygame.display.update()
@@ -315,7 +315,6 @@ def highscore_1(SCORE):
     high = highscores_list.read()
     highscores_list.write("\n" + str(SCORE))
     highscores_list.close()
-
 
 def new_highscore_prompt(screen):
     screen.fill(BLACK)
@@ -332,7 +331,6 @@ def new_highscore_prompt(screen):
     screen.blit(text2, textRect2)
     pygame.display.update()
     sleep(2)
-
 
 def highscore(SCORE, screen):
     add_high = True
@@ -359,8 +357,6 @@ def highscore(SCORE, screen):
     else:
         final_score_prompt(screen)
 
-
-
 def run(the_levels, screen):
     pygame.init()
     clock = pygame.time.Clock()
@@ -373,7 +369,7 @@ def run(the_levels, screen):
     score = 0
     new_high = False
     ######################################## highscore #################
-    #highscore()
+    start_prompt(screen)
 
     while running:
         objects = Lvl.return_bricks(the_levels[current_level])
