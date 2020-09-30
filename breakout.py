@@ -201,6 +201,8 @@ def determine_angle(angle_1, b):
         return angle_1
 
 def special_if_is_bouncy(ball, BounceBrick, objects):
+    global FPS
+
     if BounceBrick.collide(ball):
 
         #left hit
@@ -217,11 +219,13 @@ def special_if_is_bouncy(ball, BounceBrick, objects):
             ball.y_step = -DIFFICULTY
             if BounceBrick.left + (BounceBrick.width // 3) <= ball.mid <= BounceBrick.right - (BounceBrick.width // 3):
                 ball.x_step = 0
+                FPS = FPS_HIGH_SPEED
             elif BounceBrick.left + BounceBrick.width // 2 < ball.mid:
                 ball.x_step = DIFFICULTY
+                FPS = FPS_ORG
             else:
                 ball.x_step = -DIFFICULTY
-
+                FPS = FPS_ORG
         if BounceBrick.bottom >= ball.top >= BounceBrick.bottom - DIFFICULTY:
             ball.y_step = DIFFICULTY
 
@@ -329,9 +333,8 @@ def run(the_levels, screen):
     while running:
         objects = Lvl.return_bricks(the_levels[current_level])
         BRICKS_REMAINING = len(objects)
-        ###################
-        #lvl_prompt(screen, current_level + 1)
-        ###################
+        if PROMPTS:
+            lvl_prompt(screen, current_level + 1)
         balls = []
         for b in range(NO_OF_BALLS):
             ball = Ball(random.randrange(200, 300), random.randrange(200, 500), -DIFFICULTY, -DIFFICULTY, RED, BALL_SIZE, screen, False, True)
@@ -387,7 +390,8 @@ def run(the_levels, screen):
             #################################################################
             if BRICKS_REMAINING <= 0:
                 current_level += 1
-                score_prompt(screen)
+                if PROMPTS:
+                    score_prompt(screen)
                 in_level = False
 
 def keeping_score(screen):
