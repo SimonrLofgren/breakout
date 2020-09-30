@@ -28,5 +28,7 @@ SCORE = 0
 DIFFICULTY = 1
 BALL_SIZE = 7
 
-DEATH = False
+#DEATH = False
+DEATH = True
 PROMPTS = False
+#PROMPTS = True

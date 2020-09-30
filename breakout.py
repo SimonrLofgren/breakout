@@ -271,7 +271,6 @@ def final_score_prompt(screen):
     textRect.center = (SCREEN_WIDTH//2, SCREEN_HIGHT//2)
     screen.blit(text, textRect)
     pygame.display.update()
-    highscore(SCORE)
     sleep(3)
 
 def game_intro(screen, clock):
@@ -310,12 +309,57 @@ def game_intro(screen, clock):
         pygame.display.update()
         clock.tick(15)
 
-def highscore(SCORE):
+def highscore_1(SCORE):
     path = '/Users/simon/PycharmProjects/pythonProject/Breakout/Highscore.txt'
     highscores_list = open(path, 'r+')
     high = highscores_list.read()
     highscores_list.write("\n" + str(SCORE))
     highscores_list.close()
+
+
+def new_highscore_prompt(screen):
+    screen.fill(BLACK)
+    color = random.choice(colors)
+    font = pygame.font.Font('freesansbold.ttf', 72)
+    text1 = font.render("NEW HIGHSCORE!", True, RED, BLACK)
+    text2 = font.render(str(SCORE), True, BLUE, BLACK)
+    textRect1 = text1.get_rect()
+    textRect2 = text2.get_rect()
+
+    textRect1.center = (SCREEN_WIDTH//2, SCREEN_HIGHT//2 - 50)
+    textRect2.center = (SCREEN_WIDTH//2, SCREEN_HIGHT//2 + 50)
+    screen.blit(text1, textRect1)
+    screen.blit(text2, textRect2)
+    pygame.display.update()
+    sleep(2)
+
+
+def highscore(SCORE, screen):
+    add_high = True
+    with open("Highscore.txt", "r") as high:
+        text = high.readlines()
+        text_int = []
+        for line in text:
+            for n in line:
+                if n.isdigit():
+                    text_int.append(int(line))
+        #print(text)
+        #print(text_int)
+        text_int.sort(reverse=True)
+        print(text_int)
+        #print(text)
+        for line in text_int:
+            if int(line) > SCORE:
+                print(line)
+                add_high = False
+    if add_high:
+        new_highscore_prompt(screen)
+        with open("Highscore.txt", "a") as high:
+            high.write("\n"+str(SCORE))
+    else:
+        final_score_prompt(screen)
+
+
 
 def run(the_levels, screen):
     pygame.init()
@@ -327,6 +371,7 @@ def run(the_levels, screen):
     current_level = 0
     DIFFICULTY += current_level + 1
     score = 0
+    new_high = False
     ######################################## highscore #################
     #highscore()
 
@@ -384,7 +429,7 @@ def run(the_levels, screen):
             if DEATH:
                 for ball in balls:
                     if Ball.dead(ball):
-                        final_score_prompt(screen)
+                        highscore(SCORE, screen)
                         in_level = False
                         running = False
             #################################################################
