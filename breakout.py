@@ -345,17 +345,18 @@ def run(the_levels, screen):
                 if event.type == pygame.QUIT:
                     running = False
                     in_level = False
-
-                pygame.key.set_repeat(1)
-                keys = pygame.key.get_pressed()
-                if keys[pygame.K_UP]: bounce_brick.x -= 10
-                if keys[pygame.K_DOWN]: bounce_brick.x += 10
-
-                if event.type == pygame.KEYDOWN:
+                '''if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_LEFT:
                         bounce_brick.x -= 40
                     if event.key == pygame.K_RIGHT:
-                        bounce_brick.x += 40
+                        bounce_brick.x += 40'''
+
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_LEFT]:
+                bounce_brick.x -= B_BRICK_SPEED
+            if keys[pygame.K_RIGHT]:
+                bounce_brick.x += B_BRICK_SPEED
+
 
 
             screen.fill(BLACK)

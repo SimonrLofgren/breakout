@@ -1,7 +1,6 @@
 import breakout
 from settings import *
 
-
 def lvl_test(lvl_screen):
     screen = lvl_screen
     y = 0
