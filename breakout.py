@@ -3,7 +3,8 @@ import random
 from time import sleep
 from lvls import *
 from settings import *
-from start_menu import start_prompt
+from start_menu import start_prompt, image_button
+
 
 class Object:
     def __init__(self, x, y, color, screen, is_bouncy, is_indestructable):
@@ -290,14 +291,7 @@ def game_intro(screen, clock):
         TextRect.center = ((SCREEN_WIDTH / 2), (SCREEN_HIGHT / 2))
         screen.blit(TextSurf, TextRect)
 
-        mouse = pygame.mouse.get_pos()
 
-        # print(mouse)
-
-        if 150 + 100 > mouse[0] > 150 and 450 + 50 > mouse[1] > 450:
-            pygame.draw.rect(screen, GREEN_BRIGHT, (150, 450, 100, 50))
-        else:
-            pygame.draw.rect(screen, GREEN, (150, 450, 100, 50))
 
         smallText = pygame.font.Font("freesansbold.ttf", 20)
         textSurf = smallText
@@ -369,7 +363,9 @@ def run(the_levels, screen):
     score = 0
     new_high = False
     ######################################## highscore #################
+    image_button(screen)
     start_prompt(screen)
+
 
     while running:
         objects = Lvl.return_bricks(the_levels[current_level])
