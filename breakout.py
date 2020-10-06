@@ -436,6 +436,7 @@ def run(the_levels, screen):
             for obj in objects:
                 for ball in balls:
                     if Rect.is_bouncy(obj):
+
                         obj.draw()
                         if_is_bouncy(ball, obj, objects)
                         special_if_is_bouncy(ball, bounce_brick, objects)
