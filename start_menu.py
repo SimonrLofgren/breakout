@@ -3,6 +3,7 @@ import random
 from settings import *
 from time import sleep
 
+
 #STANDARD_FONT = pygame.font.SysFont('impact.ttf', 50)
 
 class Menu_rect:
@@ -68,17 +69,15 @@ class Menu_rect:
         return self.button_color
 
 
-
-
-
-
-def image_button(screen):
+def start_menu(screen):
     click = False
+    global IN_START
     IN_START = True
     while IN_START:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 IN_START = False
+                return False
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     click = True
@@ -101,37 +100,39 @@ def image_button(screen):
         if 120 < mouse_x < 120 + 250 and 310 < mouse_y < 360:
             print("inside 1")
             if click:
-                print("Click!!!")
-
+                p1_menu(screen)
 ############################ Player 2 ############################
         if 425 < mouse_x < 675 and 310 < mouse_y < 360:
-                    print("inside 2")
-                    if click:
-                        print("Click!!!")
-
+            print("inside 2")
+            if click:
+                print("Click!!!")
+                quiter = ""
+                return quiter
 ############################ Highscore ############################
         if 250 < mouse_x < 550 and 410 < mouse_y < 460:
-                    print("inside high")
-                    if click:
-                        print("Click!!!")
+            print("inside high")
+            if click:
+                print("Click!!!")
 
 ############################ Easter BOING ############################
         if 120 < mouse_x < 120 + 250 and 310 < mouse_y < 360:
-                    print("inside boing")
-                    if click:
-                        print("Click!!!")
+            print("inside boing")
+            if click:
+                print("Click!!!")
 
 
         click = False
-
-
+    return True
 def p1_menu(screen):
+    global IN_START
     click = False
-    IN_START = True
-    while IN_START:
+    IN_P1 = True
+    while IN_P1:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                IN_P1 = False
                 IN_START = False
+                return False
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     click = True
@@ -139,40 +140,31 @@ def p1_menu(screen):
         screen.fill(BLACK)
         mouse_x, mouse_y = pygame.mouse.get_pos()
 
-        p1 = pygame.image.load('1player.png')
-        p2 = pygame.image.load('2player.png')
-        high = pygame.image.load('highscores.png')
-        boing = pygame.image.load('boing.png')
+        new_game = pygame.image.load('new_game.png')
+        main = pygame.image.load('main.png')
 
-        screen.blit(p1, (120, 300))
-        screen.blit(p2, (430, 301))
-        screen.blit(high, (SCREEN_WIDTH//2 -150, SCREEN_HIGHT//2 + 100))
-        screen.blit(boing, (40, SCREEN_HIGHT//2 - 300))
+        new_game_rect = new_game.get_rect()
+        main_rect = main.get_rect()
+
+        new_game_rect.center = (SCREEN_WIDTH//2, SCREEN_HIGHT//2 - 150)
+        main_rect.center = (SCREEN_WIDTH//2, SCREEN_HIGHT//2 + 150)
+
+        screen.blit(new_game, new_game_rect)
+        screen.blit(main, main_rect)
+
         pygame.display.update()
 
-############################ Player 1 ############################
-        if 120 < mouse_x < 120 + 250 and 310 < mouse_y < 360:
+############################ new game ############################
+        if 200 < mouse_x < 600 and 100 < mouse_y < 200:
             print("inside 1")
             if click:
-                print("Click!!!")
-
-############################ Player 2 ############################
-        if 425 < mouse_x < 675 and 310 < mouse_y < 360:
-                    print("inside 2")
-                    if click:
-                        print("Click!!!")
-
-############################ Highscore ############################
-        if 250 < mouse_x < 550 and 410 < mouse_y < 460:
-                    print("inside high")
-                    if click:
-                        print("Click!!!")
-
-############################ Easter BOING ############################
-        if 120 < mouse_x < 120 + 250 and 310 < mouse_y < 360:
-                    print("inside boing")
-                    if click:
-                        print("Click!!!")
+                IN_P1 = False
+                IN_START = False
+############################ main menu ############################
+        if 180 < mouse_x < 620 and 400 < mouse_y < 500:
+            print("inside 2")
+            if click:
+                IN_P1 = False
 
 
         click = False
@@ -255,3 +247,6 @@ def start_prompt(screen):
         '''
         click = False
         pygame.display.update()
+
+def continues(continues):
+    return continues

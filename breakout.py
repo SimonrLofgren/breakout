@@ -1,9 +1,11 @@
 import pygame
 import random
 from time import sleep
+
+from initialize import create_hearts, Heart
 from lvls import *
 from settings import *
-from start_menu import start_prompt, image_button
+from start_menu import start_menu
 
 
 class Object:
@@ -56,6 +58,7 @@ class Ball(Object):
     @property
     def mid(self):
         return self.x + self.radius // 2
+
     def Move(self):
         self.x += self.x_step * 1
         self.y += self.y_step * 1
@@ -68,6 +71,10 @@ class Ball(Object):
 
     def Draw(self):
         pygame.draw.circle(self.screen, self.color, (self.x, self.y), self.radius)
+
+    def Reset(self):
+        self.x = random.randrange(200, 400)
+        self.y = random.randrange(200, 400)
 
     def show_next_hit(self):
         shadow_x = self.x
@@ -127,6 +134,7 @@ class Rect(Object):
 class BounceBrick(Rect):
     def __init__(self, x, y, width, height, color, screen, is_bouncy, is_indestructable):
         super().__init__(x, y, width, height, color, screen, is_bouncy, is_indestructable)
+
 
 class Lvl:
     def __init__(self, bg_color, bricks):
@@ -327,6 +335,7 @@ def new_highscore_prompt(screen):
     sleep(2)
 
 def highscore(SCORE, screen):
+
     add_high = True
     with open("Highscore.txt", "r") as high:
         text = high.readlines()
@@ -351,23 +360,35 @@ def highscore(SCORE, screen):
     else:
         final_score_prompt(screen)
 
+def draw_heart(screen, hearts):
+
+    for h in hearts:
+        print(h.the_image, h.x_pos, h.y_pos)
+        screen.blit(h.the_image, (h.x_pos, h.y_pos))
+
+def lose_life(balls):
+    for b in balls:
+        b.Reset()
+
 def run(the_levels, screen):
+
     pygame.init()
     clock = pygame.time.Clock()
     #game_intro(screen, clock)
     running = True
     global DIFFICULTY
     global BRICKS_REMAINING
+    global SCORE
+    global LIVES
     current_level = 0
     DIFFICULTY += current_level + 1
-    score = 0
-    new_high = False
-    ######################################## highscore #################
-    image_button(screen)
-    start_prompt(screen)
+    SCORE = 0
+    gtfo = True
+    red_hearts = create_hearts()
 
 
-    while running:
+    while running and gtfo:
+        gtfo = start_menu(screen)
         objects = Lvl.return_bricks(the_levels[current_level])
         BRICKS_REMAINING = len(objects)
         if PROMPTS:
@@ -380,11 +401,12 @@ def run(the_levels, screen):
         bounce_brick = create_bouncebrick(screen)
         #angle = 0
         in_level = True
-        while in_level:
+        while in_level and gtfo:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
                     in_level = False
+
                 '''if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_LEFT:
                         bounce_brick.x -= 40
@@ -397,10 +419,12 @@ def run(the_levels, screen):
             if keys[pygame.K_RIGHT]:
                 bounce_brick.x += B_BRICK_SPEED
 
-
-
             screen.fill(BLACK)
             bounce_brick.draw()
+
+
+            draw_heart(screen, red_hearts)
+
 
             for b in balls:
                 b.Draw()
@@ -421,15 +445,21 @@ def run(the_levels, screen):
             if DEATH:
                 for ball in balls:
                     if Ball.dead(ball):
-                        highscore(SCORE, screen)
-                        in_level = False
-                        running = False
+                        lose_life(balls)
+                        LIVES -= 1
+
+                        if LIVES == 0:
+                            highscore(SCORE, screen)
+                            in_level = False
+                            #running = False
             #################################################################
             if BRICKS_REMAINING <= 0:
                 current_level += 1
                 if PROMPTS:
                     score_prompt(screen)
                 in_level = False
+            if gtfo:
+                print("new game?")
 
 def keeping_score(screen):
 
@@ -442,7 +472,8 @@ def keeping_score(screen):
 def main():
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HIGHT))
     the_levels = init_lvl(screen)
-    run(the_levels, screen)
+    run(the_levels, screen,)
+
 
 if __name__ == "__main__":
     main()

@@ -32,6 +32,8 @@ B_BRICK_SPEED = 3
 BRICKS_REMAINING = 0
 NO_OF_BALLS = 1
 
+LIVES = 3
+
 NR_OF_LVL = 20 # (5)
 SCORE = 0
 DIFFICULTY = 1
@@ -41,3 +43,5 @@ BALL_SIZE = 7
 DEATH = True
 PROMPTS = False
 #PROMPTS = True
+IN_START = True
+running = True
