@@ -2,7 +2,7 @@ import pygame
 import random
 from time import sleep
 
-from initialize import create_hearts, Heart
+from initialize import create_red_hearts, create_gray_hearts
 from lvls import *
 from settings import *
 from start_menu import start_menu
@@ -384,7 +384,8 @@ def run(the_levels, screen):
     DIFFICULTY += current_level + 1
     SCORE = 0
     gtfo = True
-    red_hearts = create_hearts()
+    red_hearts = create_red_hearts()
+    gray_hearts = create_gray_hearts()
 
 
     while running and gtfo:
@@ -422,8 +423,9 @@ def run(the_levels, screen):
             screen.fill(BLACK)
             bounce_brick.draw()
 
-
+            draw_heart(screen, gray_hearts)
             draw_heart(screen, red_hearts)
+
 
 
             for b in balls:
@@ -446,6 +448,7 @@ def run(the_levels, screen):
                 for ball in balls:
                     if Ball.dead(ball):
                         lose_life(balls)
+                        red_hearts.pop()
                         LIVES -= 1
 
                         if LIVES == 0:
