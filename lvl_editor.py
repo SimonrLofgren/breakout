@@ -14,7 +14,7 @@ STONE_B = pygame.image.load("bricks/STONE.png")
 GOLD_B = pygame.image.load("bricks/GOLD.png")
 
 class Brick:
-    def __init__(self, x, y, width, height, image, screen, is_bouncy, is_indestructable, pwup):
+    def __init__(self, x, y, width, height, image, screen, is_bouncy, is_indestructable, pwup, hits):
         self.x = x
         self.y = y
         self.width = width
@@ -24,7 +24,7 @@ class Brick:
         self.is_indestructable = is_indestructable
         self.is_bouncy = is_bouncy
         self.pwup = pwup
-
+        self.hits = hits
 
     @property
     def top(self):
@@ -71,6 +71,12 @@ class Brick:
     def draw(self):
         screen = self.screen
         screen.blit(self.image, (self.x, self.y))
+
+    def hit_count(self):
+        return self.hits
+
+    def hit_minus(self):
+        self.hits -= 1
 def imgtype(b):
 
     if b == 0:
@@ -121,9 +127,7 @@ def new_level(screen):
                 B36, B37, B38, B39, B40, B41, B42, B43, B44,
                 B45, B46, B47, B48, B49, B50, B51, B52, B53]
 
-    for b in grid_t_f:
-        print(b[0])
-    print("")
+
 
     bricks = []
     pwups = []
@@ -132,19 +136,34 @@ def new_level(screen):
     lines = 6
     brick_pos_y = 10
     b_no = 0
+    hits = 0
     for l in range(lines):
         brick_pos_x = 50
         brick_pos_y += 30
         for line_no in range(9):
             b = grid_t_f[b_no]
+
             if b != None:
-
                 image = imgtype(b[0])
+                ab = b[0]
+                if ab > 5 and ab < 9:
 
-            if b[1] != 0:
-                pwup = pwuptype(b[1])
+                    if ab == 6:
+                        hits = 1
 
-            brick = Brick(brick_pos_x, brick_pos_y, BRICK_SIZE_X, BRICK_SIZE_Y, image, screen, True, False, pwup)
+                    elif ab == 7:
+                        hits = 2
+
+                    elif ab == 8:
+                        hits = 3
+
+                else:
+                    hits = 0
+                if b[1] != 0:
+                    pwup = pwuptype(b[1])
+
+
+            brick = Brick(brick_pos_x, brick_pos_y, BRICK_SIZE_X, BRICK_SIZE_Y, image, screen, True, False, pwup, hits)
             bricks.append(brick)
             brick_pos_x += 80
             b_no += 1

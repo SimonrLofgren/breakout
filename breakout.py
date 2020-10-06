@@ -3,6 +3,7 @@ import random
 from time import sleep
 
 from initialize import create_red_hearts, create_gray_hearts
+from lvl_editor import Brick
 from lvls import *
 from settings import *
 from start_menu import start_menu
@@ -243,12 +244,16 @@ def hit(obj, objects):
     if not Object.is_indestructable(obj):
         global SCORE
         global BRICKS_REMAINING
-        try:
-            objects.remove(obj)
-        except:
-            print("FEL")
-        SCORE += 50
-        BRICKS_REMAINING = BRICKS_REMAINING - 1
+        if Brick.hit_count(obj) == 0:
+            try:
+                objects.remove(obj)
+
+                SCORE += 50
+                BRICKS_REMAINING = BRICKS_REMAINING - 1
+            except:
+                print("FEL")
+        else:
+            Brick.hit_minus(obj)
 
 def lvl_prompt(screen, lvl):
     screen.fill(BLACK)
@@ -361,9 +366,7 @@ def highscore(SCORE, screen):
         final_score_prompt(screen)
 
 def draw_heart(screen, hearts):
-
     for h in hearts:
-        print(h.the_image, h.x_pos, h.y_pos)
         screen.blit(h.the_image, (h.x_pos, h.y_pos))
 
 def lose_life(balls):
@@ -462,7 +465,7 @@ def run(the_levels, screen):
                 if PROMPTS:
                     score_prompt(screen)
                 in_level = False
-            if gtfo:
+            if not gtfo:
                 print("new game?")
 
 def keeping_score(screen):
