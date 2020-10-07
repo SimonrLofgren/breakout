@@ -21,7 +21,7 @@ class Heart:
 
 def create_red_hearts():
     red_hearts = []
-    image = pygame.image.load('red_life_black_sm.png')
+    image = pygame.image.load('sprites/red_life_black_sm.png')
     x = SCREEN_WIDTH//2 - 50
     y = 5
     for l in range(LIVES):
@@ -32,7 +32,7 @@ def create_red_hearts():
 
 def create_gray_hearts():
     gray_hearts = []
-    image = pygame.image.load('gray_life_black_sm.png')
+    image = pygame.image.load('sprites/gray_life_black_sm.png')
     x = SCREEN_WIDTH//2 - 50
     y = 5
     for l in range(LIVES):

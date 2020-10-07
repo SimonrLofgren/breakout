@@ -85,10 +85,10 @@ def start_menu(screen):
         screen.fill(BLACK)
         mouse_x, mouse_y = pygame.mouse.get_pos()
 
-        p1 = pygame.image.load('1player.png')
-        p2 = pygame.image.load('2player.png')
-        high = pygame.image.load('highscores.png')
-        boing = pygame.image.load('boing.png')
+        p1 = pygame.image.load('sprites/menu/1player.png')
+        p2 = pygame.image.load('sprites/menu/2player.png')
+        high = pygame.image.load('sprites/menu/highscores.png')
+        boing = pygame.image.load('sprites/menu/boing.png')
 
         screen.blit(p1, (120, 300))
         screen.blit(p2, (430, 301))
@@ -123,6 +123,7 @@ def start_menu(screen):
 
         click = False
     return True
+
 def p1_menu(screen):
     global IN_START
     click = False
@@ -140,8 +141,8 @@ def p1_menu(screen):
         screen.fill(BLACK)
         mouse_x, mouse_y = pygame.mouse.get_pos()
 
-        new_game = pygame.image.load('new_game.png')
-        main = pygame.image.load('main.png')
+        new_game = pygame.image.load('sprites/menu/new_game.png')
+        main = pygame.image.load('sprites/menu/main.png')
 
         new_game_rect = new_game.get_rect()
         main_rect = main.get_rect()

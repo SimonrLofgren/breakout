@@ -76,15 +76,16 @@ def init_lvl(screen):
     list_of_levels = [lvl_1(screen), lvl_2(screen)]
     the_levels = []
 
+
     lvl = breakout.Lvl(None, new_level_1)
     the_levels.append(lvl)
 
-    '''for l in range(len(list_of_levels)):
+    for l in range(len(list_of_levels)):
         lvl = breakout.Lvl(None, list_of_levels[l])
         the_levels.append(lvl)
     list_of_lvl = lvl_rand(screen, list_of_levels)
     for l in range(len(list_of_lvl)):
         lvl = breakout.Lvl(None, list_of_lvl[l])
-        the_levels.append(lvl)'''
+        the_levels.append(lvl)
 
     return the_levels

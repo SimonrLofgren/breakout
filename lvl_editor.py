@@ -3,15 +3,15 @@ import pygame
 from settings import *
 from BRICKS_INDEX import *
 
-YELLOW_B = pygame.image.load("bricks/YELLOW.png")
-RED_B = pygame.image.load("bricks/RED.PNG")
-BLUE_B = pygame.image.load("bricks/BLUE.png")
-GREEN_B = pygame.image.load("bricks/GREEN.png")
-CYAN_B = pygame.image.load("bricks/CYAN.png")
-MAGENTA_B = pygame.image.load("bricks/MAGENTA.png")
-BRICKBRICK_B = pygame.image.load("bricks/BRICKBRICK.png")
-STONE_B = pygame.image.load("bricks/STONE.png")
-GOLD_B = pygame.image.load("bricks/GOLD.png")
+YELLOW_B = pygame.image.load("sprites/bricks/YELLOW.png")
+RED_B = pygame.image.load("sprites/bricks/RED.PNG")
+BLUE_B = pygame.image.load("sprites/bricks/BLUE.png")
+GREEN_B = pygame.image.load("sprites/bricks/GREEN.png")
+CYAN_B = pygame.image.load("sprites/bricks/CYAN.png")
+MAGENTA_B = pygame.image.load("sprites/bricks/MAGENTA.png")
+BRICKBRICK_B = pygame.image.load("sprites/bricks/BRICKBRICK.png")
+STONE_B = pygame.image.load("sprites/bricks/STONE.png")
+GOLD_B = pygame.image.load("sprites/bricks/GOLD.png")
 
 class Brick:
     def __init__(self, x, y, width, height, image, screen, is_bouncy, is_indestructable, pwup, hits):
@@ -77,6 +77,7 @@ class Brick:
 
     def hit_minus(self):
         self.hits -= 1
+
 def imgtype(b):
 
     if b == 0:
@@ -106,10 +107,8 @@ def imgtype(b):
     if b == 8:
         return GOLD_B
 
-
 def pwuptype(b):
     pass
-
 
 def new_level(screen):
 
@@ -134,7 +133,7 @@ def new_level(screen):
     image = 0
     pwup = 0
     lines = 6
-    brick_pos_y = 10
+    brick_pos_y = 20
     b_no = 0
     hits = 0
     for l in range(lines):
@@ -163,8 +162,8 @@ def new_level(screen):
                     pwup = pwuptype(b[1])
 
 
-            brick = Brick(brick_pos_x, brick_pos_y, BRICK_SIZE_X, BRICK_SIZE_Y, image, screen, True, False, pwup, hits)
-            bricks.append(brick)
+                brick = Brick(brick_pos_x, brick_pos_y, BRICK_SIZE_X, BRICK_SIZE_Y, image, screen, True, False, pwup, hits)
+                bricks.append(brick)
             brick_pos_x += 80
             b_no += 1
 

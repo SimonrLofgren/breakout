@@ -1,13 +1,11 @@
 import pygame
 import random
 from time import sleep
-
 from initialize import create_red_hearts, create_gray_hearts
 from lvl_editor import Brick
 from lvls import *
 from settings import *
 from start_menu import start_menu
-
 
 class Object:
     def __init__(self, x, y, color, screen, is_bouncy, is_indestructable):
@@ -100,6 +98,79 @@ class Ball(Object):
         if self.y > SCREEN_HIGHT - self.radius:
             return True
 
+class Ball_img(Object):
+    def __init__(self, x, y, x_step, y_step, color, ball_image, radius, screen, is_bouncy, is_indestructable):
+        super().__init__(x, y, color, screen, is_bouncy, is_indestructable)
+        self.x_step = x_step
+        self.y_step = y_step
+        self.radius = radius
+        self.ball_image = ball_image
+
+        ######Ball hit box######
+    @property
+    def top(self):
+        return self.y - self.radius
+
+    @property
+    def bottom(self):
+        return self.y + self.radius
+
+    @property
+    def side_bottom(self):
+        return self.x + self.radius
+
+    @property
+    def left(self):
+        return self.x - self.radius
+
+    @property
+    def right(self):
+        return self.x + self.radius
+    @property
+    def mid(self):
+        return self.x + self.radius // 2
+
+    def Move(self):
+        self.x += self.x_step * 1
+        self.y += self.y_step * 1
+
+        if not self.radius <= self.x <= SCREEN_WIDTH - self.radius:
+            self.x_step *= -1
+
+        if not self.radius <= self.y <= SCREEN_HIGHT - self.radius:
+            self.y_step *= -1
+
+    def Draw(self):
+        pygame.draw.circle(self.screen, self.color, (self.x, self.y), self.radius)
+        self.screen.blit(self.ball_image, (self.x-7, self.y-7))
+    def Reset(self):
+        self.x = random.randrange(200, 400)
+        self.y = random.randrange(200, 400)
+
+    def show_next_hit(self):
+        shadow_x = self.x
+        shadow_y = self.y
+
+        no_hit = True
+        while no_hit:
+            shadow_x += self.x_step
+            shadow_y += self.y_step
+
+            if not self.radius <= shadow_x <= SCREEN_WIDTH - self.radius:
+                no_hit = False
+
+            if not self.radius <= shadow_y <= SCREEN_HIGHT - self.radius:
+                no_hit = False
+
+        pygame.draw.circle(self.screen, WHITE, (shadow_x, shadow_y), self.radius, 2)
+
+    ###prel death
+
+    def dead(self):
+        if self.y > SCREEN_HIGHT - self.radius:
+            return True
+
+
 class Rect(Object):
     def __init__(self, x, y, width, height, color, screen, is_bouncy, is_indestructable):
         super().__init__(x, y, color, screen, is_bouncy, is_indestructable)
@@ -133,9 +204,13 @@ class Rect(Object):
         pygame.draw.rect(self.screen, self.color, (self.x, self.y, self.width, self.height))
 
 class BounceBrick(Rect):
-    def __init__(self, x, y, width, height, color, screen, is_bouncy, is_indestructable):
+    def __init__(self, x, y, width, height, color, screen, is_bouncy, is_indestructable, bb_image):
         super().__init__(x, y, width, height, color, screen, is_bouncy, is_indestructable)
+        self.bb_image = bb_image
 
+    def draw(self):
+        pygame.draw.rect(self.screen, self.color, (self.x, self.y, self.width, self.height))
+        self.screen.blit(self.bb_image, (self.x, self.y))
 
 class Lvl:
     def __init__(self, bg_color, bricks):
@@ -150,7 +225,8 @@ class Lvl:
         return self.bg_color
 
 def create_bouncebrick(screen):
-    bounce_brick = BounceBrick(100, 550, 100, 20, WHITE, screen, True, True)
+    bb_img = pygame.image.load("sprites/bouncebrick.png")
+    bounce_brick = BounceBrick(100, 550, 100, 20, WHITE, screen, True, True, bb_img)
     return bounce_brick
 
 def create_random_obj(colors, objects, screen):
@@ -373,6 +449,17 @@ def lose_life(balls):
     for b in balls:
         b.Reset()
 
+def draw_bg(screen, bg):
+    screen.blit(bg, (0, 0))
+
+def bg_load():
+    bg = pygame.image.load("sprites/spaceBG_w_black.png")
+    return bg
+
+
+def create_ball():
+    return pygame.image.load("sprites/balls/metalball_14_ro.png")
+
 def run(the_levels, screen):
 
     pygame.init()
@@ -387,10 +474,11 @@ def run(the_levels, screen):
     DIFFICULTY += current_level + 1
     SCORE = 0
     gtfo = True
+    bg = bg_load()
     red_hearts = create_red_hearts()
     gray_hearts = create_gray_hearts()
-
-
+    ball_image = create_ball()
+    color_bg = CYAN
     while running and gtfo:
         gtfo = start_menu(screen)
         objects = Lvl.return_bricks(the_levels[current_level])
@@ -398,10 +486,18 @@ def run(the_levels, screen):
         if PROMPTS:
             lvl_prompt(screen, current_level + 1)
         balls = []
-        for b in range(NO_OF_BALLS):
+
+        ########################### Test image ball ##############################
+        ball = Ball_img(random.randrange(200, 300), random.randrange(200, 500), -DIFFICULTY, -DIFFICULTY, color_bg, ball_image, BALL_SIZE, screen, False, True)
+        balls.append(ball)
+
+        ##########################################################################
+
+        '''for b in range(NO_OF_BALLS):
             ball = Ball(random.randrange(200, 300), random.randrange(200, 500), -DIFFICULTY, -DIFFICULTY, RED, BALL_SIZE, screen, False, True)
             balls.append(ball)
-            objects.append(ball)
+            objects.append(ball)'''
+
         bounce_brick = create_bouncebrick(screen)
         #angle = 0
         in_level = True
@@ -424,8 +520,8 @@ def run(the_levels, screen):
                 bounce_brick.x += B_BRICK_SPEED
 
             screen.fill(BLACK)
+            draw_bg(screen, bg)
             bounce_brick.draw()
-
             draw_heart(screen, gray_hearts)
             draw_heart(screen, red_hearts)
 
@@ -454,6 +550,7 @@ def run(the_levels, screen):
                         lose_life(balls)
                         red_hearts.pop()
                         LIVES -= 1
+                        sleep(1)
 
                         if LIVES == 0:
                             highscore(SCORE, screen)
@@ -480,7 +577,6 @@ def main():
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HIGHT))
     the_levels = init_lvl(screen)
     run(the_levels, screen,)
-
 
 if __name__ == "__main__":
     main()
