@@ -1,7 +1,8 @@
 import pygame
-
-from settings import *
-from BRICKS_INDEX import *
+from config import *
+from classes.pwup_types import *
+from classes.BRICKS_INDEX import *
+from classes.Object.Brick import *
 
 YELLOW_B = pygame.image.load("sprites/bricks/YELLOW.png")
 RED_B = pygame.image.load("sprites/bricks/RED.PNG")
@@ -13,7 +14,9 @@ BRICKBRICK_B = pygame.image.load("sprites/bricks/BRICKBRICK.png")
 STONE_B = pygame.image.load("sprites/bricks/STONE.png")
 GOLD_B = pygame.image.load("sprites/bricks/GOLD.png")
 
-class Brick:
+
+
+'''class Brick:
     def __init__(self, x, y, width, height, image, screen, is_bouncy, is_indestructable, pwup, hits):
         self.x = x
         self.y = y
@@ -61,12 +64,6 @@ class Brick:
         else:
             return False
 
-    def collide(self, other):
-        if self.left >= other.right or other.left >= self.right:
-            return False
-        if self.top >= other.bottom or other.top >= self.bottom:
-            return False
-        return True
 
     def draw(self):
         screen = self.screen
@@ -76,7 +73,12 @@ class Brick:
         return self.hits
 
     def hit_minus(self):
-        self.hits -= 1
+        self.hits -= 1'''
+
+'''
+Lvl = (x, y, width, height, image, screen, is_bouncy, is_indestructable, pwup, hits):
+'''
+
 
 def imgtype(b):
 
@@ -108,9 +110,35 @@ def imgtype(b):
         return GOLD_B
 
 def pwuptype(b):
-    pass
 
-def new_level(screen):
+    if b == 0:
+        return YELLOW_B
+
+    if b == 1:
+        return
+
+    if b == 2:
+        return BLUE_B
+
+    if b == 3:
+        return GREEN_B
+
+    if b == 4:
+        return CYAN_B
+
+    if b == 5:
+        return MAGENTA_B
+
+    if b == 6:
+        return BRICKBRICK_B
+
+    if b == 7:
+        return STONE_B
+
+    if b == 8:
+        return GOLD_B
+
+def new_level_bricks(screen):
 
     grid = [1, 1, 1, 0, 0, 0, 1, 1, 1,
             1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -167,6 +195,7 @@ def new_level(screen):
             brick_pos_x += 80
             b_no += 1
 
+# list of bricks
     return bricks
 
 

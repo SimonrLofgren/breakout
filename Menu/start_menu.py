@@ -1,6 +1,6 @@
 import pygame
 import random
-from settings import *
+from config import *
 from time import sleep
 
 
@@ -98,19 +98,19 @@ def start_menu(screen):
 
 ############################ Player 1 ############################
         if 120 < mouse_x < 120 + 250 and 310 < mouse_y < 360:
-            print("inside 1")
+            #print("inside 1")
             if click:
                 p1_menu(screen)
 ############################ Player 2 ############################
         if 425 < mouse_x < 675 and 310 < mouse_y < 360:
             print("inside 2")
             if click:
-                print("Click!!!")
+                #print("Click!!!")
                 quiter = ""
                 return quiter
 ############################ Highscore ############################
         if 250 < mouse_x < 550 and 410 < mouse_y < 460:
-            print("inside high")
+            #print("inside high")
             if click:
                 print("Click!!!")
 

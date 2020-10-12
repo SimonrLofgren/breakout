@@ -1,12 +1,20 @@
-
+from config import *
 
 ################################ pw ups ################################
 
-def life_up():
+
+def declining_pwup():
     pass
 
+
+def life_up():
+    global LIVES
+    if LIVES <= 2:
+        LIVES += 1
+
 def ball_add():
-    pass
+    global NO_OF_BALLS
+    NO_OF_BALLS += 1
 
 def bricksize_big():
     pass

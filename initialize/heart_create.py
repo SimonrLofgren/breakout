@@ -1,23 +1,8 @@
 import pygame
-from settings import LIVES, SCREEN_WIDTH
 
-class Heart:
-    def __init__(self, x, y, image):
-        self.x = x
-        self.y = y
-        self.image = image
+from classes.Heart import Heart
+from config import *
 
-    @property
-    def x_pos(self):
-        return self.x
-
-    @property
-    def y_pos(self):
-        return self.y
-
-    @property
-    def the_image(self):
-        return self.image
 
 def create_red_hearts():
     red_hearts = []
