@@ -105,7 +105,7 @@ def bg_load():
     return bg
 
 def create_ball():
-    return pygame.image.load("sprites/balls/metalball_14_ro.png")
+    return pygame.image.load("sprites/balls/metalball_14_ro.png").convert_alpha()
 
 def keeping_score(screen):
 
@@ -135,7 +135,6 @@ def run(the_levels, screen):
     current_level = 0
     diff = SETTINGS_OBJ.DIFFICULTY + (current_level + 1)
     SETTINGS_OBJ.change_DIFFICULTY(diff)
-
     gtfo = True
 
 
@@ -204,8 +203,7 @@ def run(the_levels, screen):
             for b in balls:
                 b.Draw()
                 b.Move()
-                print(b.heading())
-                print(SETTINGS_OBJ.DIFFICULTY)
+
 
                 #bounce_brick.ai(b.left - random.choice(random_bounce))
 

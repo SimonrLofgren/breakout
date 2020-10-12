@@ -1,6 +1,7 @@
 from classes.Object.Brick import *
 from classes.Object.Bouncebrick import *
 from config.settings_create import SETTINGS_OBJ
+from config import *
 '''
 def pwup_tracker(pwup,bb):
 
@@ -62,17 +63,19 @@ def bouncebrick_hit(ball, BounceBrick):
             ball.y_step = SETTINGS_OBJ.DIFFICULTY
 
 def hit(obj, objects):
-    print("was in hit")
     if not Object.is_indestructable(obj):
-        global SCORE
         global BRICKS_REMAINING
+
         if Brick.hit_count(obj) == 0:
             try:
                 objects.remove(obj)
+                print(SETTINGS_OBJ.SCORE)
 
+                print("rätt")
                 SETTINGS_OBJ.change_SCORE(50)
                 BRICKS_REMAINING = BRICKS_REMAINING - 1
             except:
                 print("FEL")
         else:
             Brick.hit_minus(obj)
+            print("-hit")

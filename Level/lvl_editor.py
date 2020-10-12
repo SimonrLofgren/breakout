@@ -3,111 +3,36 @@ from config import *
 from classes.pwup_types import *
 from classes.BRICKS_INDEX import *
 from classes.Object.Brick import *
-
-YELLOW_B = pygame.image.load("sprites/bricks/YELLOW.png")
-RED_B = pygame.image.load("sprites/bricks/RED.PNG")
-BLUE_B = pygame.image.load("sprites/bricks/BLUE.png")
-GREEN_B = pygame.image.load("sprites/bricks/GREEN.png")
-CYAN_B = pygame.image.load("sprites/bricks/CYAN.png")
-MAGENTA_B = pygame.image.load("sprites/bricks/MAGENTA.png")
-BRICKBRICK_B = pygame.image.load("sprites/bricks/BRICKBRICK.png")
-STONE_B = pygame.image.load("sprites/bricks/STONE.png")
-GOLD_B = pygame.image.load("sprites/bricks/GOLD.png")
-
-
-
-'''class Brick:
-    def __init__(self, x, y, width, height, image, screen, is_bouncy, is_indestructable, pwup, hits):
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
-        self.image = image
-        self.screen = screen
-        self.is_indestructable = is_indestructable
-        self.is_bouncy = is_bouncy
-        self.pwup = pwup
-        self.hits = hits
-
-    @property
-    def top(self):
-        return self.y
-
-    @property
-    def bottom(self):
-        return self.y + self.height
-
-    @property
-    def left(self):
-        return self.x
-
-    @property
-    def right(self):
-        return self.x + self.width
-
-    def collide(self, other):
-        if self.left >= other.right or other.left >= self.right:
-            return False
-        if self.top >= other.bottom or other.top >= self.bottom:
-            return False
-        return True
-
-    def is_bouncy(self):
-        if self.is_bouncy == True:
-            return True
-        else:
-            return False
-
-    def is_indestructable(self):
-        if self.is_indestructable == True:
-            return True
-        else:
-            return False
-
-
-    def draw(self):
-        screen = self.screen
-        screen.blit(self.image, (self.x, self.y))
-
-    def hit_count(self):
-        return self.hits
-
-    def hit_minus(self):
-        self.hits -= 1'''
-
-'''
-Lvl = (x, y, width, height, image, screen, is_bouncy, is_indestructable, pwup, hits):
-'''
-
+from Level import *
 
 def imgtype(b):
 
     if b == 0:
-        return YELLOW_B
+        return YELLOW_B.convert_alpha()
 
     if b == 1:
-        return RED_B
+        return RED_B.convert_alpha()
 
     if b == 2:
-        return BLUE_B
+        return BLUE_B.convert_alpha()
 
     if b == 3:
-        return GREEN_B
+        return GREEN_B.convert_alpha()
 
     if b == 4:
-        return CYAN_B
+        return CYAN_B.convert_alpha()
 
     if b == 5:
-        return MAGENTA_B
+        return MAGENTA_B.convert_alpha()
 
     if b == 6:
-        return BRICKBRICK_B
+        return BRICKBRICK_B.convert_alpha()
 
     if b == 7:
-        return STONE_B
+        return STONE_B.convert_alpha()
 
     if b == 8:
-        return GOLD_B
+        return GOLD_B.convert_alpha()
 
 def pwuptype(b):
 
