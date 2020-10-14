@@ -205,7 +205,7 @@ def run(the_levels, screen):
                         collision_pos(ball, br, bricks_on_screen, pwup_data_obj)
 
             for ball in balls:
-                print(ball.x_step, ball.y_step)
+
                 bouncebrick_hit(ball, bounce_brick)
 
 
