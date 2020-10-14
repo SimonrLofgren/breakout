@@ -12,19 +12,25 @@ def pwup_activate(x):
         ball_add()
 
     if x == 2:
-        pass
+        bricksize_big()
 
     if x == 3:
-        pass
+        bricksize_small()
 
     if x == 4:
-        pass
+        ballspeed_fast()
 
     if x == 5:
-        pass
+        ballspeed_slow()
 
-    if x == 6:
-        pass
+    if x == 7:
+        flameball()
+
+    if x == 8:
+        undead()
+
+    if x == 9:
+        dead()
 
 
 
@@ -42,19 +48,31 @@ def ball_add():
     SETTINGS_OBJ.change_NO_OF_BALLS(1)
 
 def bricksize_big():
-    pass
+    SETTINGS_OBJ.change_BRICK_TYPE(1)
 
 def bricksize_small():
-    pass
+    SETTINGS_OBJ.change_BRICK_TYPE(-1)
 
 def ballspeed_fast():
-    pass
+    SETTINGS_OBJ.change_DIFFICULTY(3)
+    SETTINGS_OBJ.change_FPS(120)
 
 def ballspeed_slow():
-    pass
+    SETTINGS_OBJ.change_DIFFICULTY(2)
+    SETTINGS_OBJ.change_FPS(60)
+
+def ballspeed_normal():
+    SETTINGS_OBJ.change_DIFFICULTY(2)
+    SETTINGS_OBJ.change_FPS(90)
 
 def flameball():
     pass
 
 def undead():
     pass
+def dead():
+    pass
+
+def bricksize_normal():
+    SETTINGS_OBJ.change_BRICK_TYPE(0)
+

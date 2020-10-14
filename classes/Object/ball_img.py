@@ -1,11 +1,11 @@
 from classes.Object import *
-from config import SCREEN_HIGHT, SCREEN_WIDTH, BLACK, BALL_SIZE
+from config import SCREEN_HIGHT, SCREEN_WIDTH, BALL_SIZE
 from initialize import ball_image
 
 
 class Ball_img(Object):
-    def __init__(self, x, y, x_step, y_step, color, ball_image, radius, screen, is_bouncy, is_indestructable):
-        super().__init__(x, y, color, screen, is_bouncy, is_indestructable)
+    def __init__(self, x, y, x_step, y_step, ball_image, radius, screen, is_bouncy, is_indestructable):
+        super().__init__(x, y, screen, is_bouncy, is_indestructable)
         self.x_step = x_step
         self.y_step = y_step
         self.radius = radius
@@ -13,8 +13,9 @@ class Ball_img(Object):
 
     @staticmethod
     def create_ball(SETTINGS_OBJ,screen):
-        ball = Ball_img(random.randrange(200, 300), random.randrange(300, 500), SETTINGS_OBJ.DIFFICULTY,
-                        -SETTINGS_OBJ.DIFFICULTY, BLACK, ball_image, BALL_SIZE, screen, False, True)
+        x_step = [SETTINGS_OBJ.DIFFICULTY, -SETTINGS_OBJ.DIFFICULTY]
+        ball = Ball_img(random.randrange(200, 600), random.randrange(300, 500), random.choice(x_step),
+                        -SETTINGS_OBJ.DIFFICULTY, ball_image, BALL_SIZE, screen, False, True)
         return ball
 
         ######Ball hit box######
@@ -40,6 +41,7 @@ class Ball_img(Object):
     def Move(self):
         self.x += self.x_step * 1
         self.y += self.y_step * 1
+
 
         if not self.radius <= self.x <= SCREEN_WIDTH - self.radius:
             self.x_step *= -1

@@ -32,7 +32,24 @@ def collision_pos(ball, br, bricks_on_screen, pwup_t_or_f_obj):
             ball.y_step = SETTINGS_OBJ.DIFFICULTY
             hit(br, bricks_on_screen, pwup_t_or_f_obj)
 
+def speed_fix(p, balls):
+    try:
+        value = p.pwup_type
+    except:
+        value = 5
+    if 4 <= value <= 6:
+        for b in balls:
+            if b.x_step != SETTINGS_OBJ.DIFFICULTY or b.x_step != -SETTINGS_OBJ.DIFFICULTY:
+                if b.x_step < 0:
+                    b.x_step = -SETTINGS_OBJ.DIFFICULTY
+                else:
+                    b.x_step = SETTINGS_OBJ.DIFFICULTY
 
+            if b.y_step != SETTINGS_OBJ.DIFFICULTY or b.y_step != -SETTINGS_OBJ.DIFFICULTY:
+                if b.y_step < 0:
+                    b.y_step = -SETTINGS_OBJ.DIFFICULTY
+                else:
+                    b.y_step = SETTINGS_OBJ.DIFFICULTY
 
 
 def bouncebrick_hit(ball, BounceBrick):
@@ -72,11 +89,15 @@ def hit(obj, objects, pwup_t_or_f_obj):
             try:
                 pwup_t_or_f_obj.set(True, Brick.pwup_return(obj), obj.x, obj.y)
                 objects.remove(obj)
-                print(SETTINGS_OBJ.SCORE)
                 SETTINGS_OBJ.change_SCORE(50)
-                BRICKS_REMAINING = BRICKS_REMAINING - 1
+                SETTINGS_OBJ.change_BRICKS_REMAINING(SETTINGS_OBJ.BRICKS_REMAINING - 1)
             except:
                 print("FEL")
         else:
             Brick.hit_minus(obj)
             print("-hit")
+
+def remove_ball(ball, balls):
+
+    balls.remove(ball)
+    SETTINGS_OBJ.change_NO_OF_BALLS(-1)

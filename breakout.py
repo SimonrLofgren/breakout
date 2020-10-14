@@ -1,9 +1,9 @@
 from classes.Object.pwup import Pwup
-from classes.pwup_types import pwup_activate
+from classes.pwup_types import pwup_activate, ballspeed_normal
+from engine.pwup_control import Timer
 from initialize import *
 from time import sleep
 from Level.lvls import *
-from initialize.bouncebrick_create import create_bouncebrick
 from classes.Object.ball_img import Ball_img
 from engine.collision_control import *
 from config.settings_create import *
@@ -98,11 +98,6 @@ def draw_heart(screen, hearts):
     for h in hearts:
         screen.blit(h.the_image, (h.x_pos, h.y_pos))
 
-def remove_ball(ball, balls):
-
-    balls.remove(ball)
-    SETTINGS_OBJ.change_NO_OF_BALLS(-1)
-
 def keeping_score(screen):
 
     text = STANDARD_FONT.render("Score: "+str(SETTINGS_OBJ.SCORE), True, WHITE, BLACK)
@@ -125,12 +120,7 @@ def run(the_levels, screen):
     clock = pygame.time.Clock()
     #game_intro(screen, clock)
     running = True
-    global BRICKS_REMAINING
-    global SCORE
-    global LIVES
     current_level = 0
-    diff = SETTINGS_OBJ.DIFFICULTY + (current_level + 1)
-    SETTINGS_OBJ.change_DIFFICULTY(diff)
     gtfo = True
 
 
@@ -144,7 +134,7 @@ def run(the_levels, screen):
 
         ''' put lvl objects in list '''
         bricks_on_screen = Lvl.return_bricks(the_levels[current_level])
-        BRICKS_REMAINING = len(bricks_on_screen)
+        SETTINGS_OBJ.change_BRICKS_REMAINING(len(bricks_on_screen))
 
 
         # prompts on or off
@@ -160,10 +150,11 @@ def run(the_levels, screen):
         balls.append(Ball_img.create_ball(SETTINGS_OBJ, screen))
         #################################### create bouncebrick #######################################
 
-        bounce_brick = create_bouncebrick(screen)
+        bounce_brick = BounceBrick.create_bouncebrick(screen, SETTINGS_OBJ.BRICK_TYPE)
 
         pwup_data_obj = pwup_data_obj_create()
         pwups = []
+        speedtimer = Timer(0, 1200)
         ############### in game loop ###############
         in_level = True   # Main arg
         while in_level and gtfo:
@@ -183,7 +174,11 @@ def run(the_levels, screen):
 
 #################################### Draw and Move phase ####################################
             screen.blit(bg, (0, 0))
+            ####### Bouncebrick ########
+            if SETTINGS_OBJ.BRICK_TYPE != bounce_brick.type:
+                bounce_brick = BounceBrick.create_bouncebrick(screen, SETTINGS_OBJ.BRICK_TYPE)
             bounce_brick.draw()
+
             draw_heart(screen, gray_hearts)
             for h in range(SETTINGS_OBJ.LIVES):
                 red_hearts[h].draw(screen)
@@ -210,6 +205,7 @@ def run(the_levels, screen):
                         collision_pos(ball, br, bricks_on_screen, pwup_data_obj)
 
             for ball in balls:
+                print(ball.x_step, ball.y_step)
                 bouncebrick_hit(ball, bounce_brick)
 
 
@@ -218,29 +214,24 @@ def run(the_levels, screen):
                 pwups.append(Pwup.pwup_create(screen, pwup_data_obj))
                 pwup_data_obj.set(False, 0, 0, 0)
 
-            print(SETTINGS_OBJ.NO_OF_BALLS)
-
-
-
-
-
-
-
-
-
-
-
             for p in pwups:
                 p.draw_pwup()
                 p.move()
                 if bounce_brick.collide(p):
                     try:
                         pwup_activate(p.pwup_type)
-                        pwups.remove(p)
-
-
                     except:
                         print("pwup went wrong")
+                    speed_fix(p, balls)
+                    pwups.remove(p)
+
+########################## RESTORE SPEED ##########################
+            if speedtimer.pwup_timer():
+                if SETTINGS_OBJ.FPS != 90:
+                    ballspeed_normal()
+                    speed_fix(5, balls)
+
+
 ###############################################################################
 
             #bounce_brick.ai(ball.x)
@@ -259,10 +250,6 @@ def run(the_levels, screen):
                             SETTINGS_OBJ.change_NO_OF_BALLS(1)
                             sleep(1)
 
-                        '''if LIVES == 0:
-                            highscore(SCORE, screen)
-                            in_level = False
-                            #running = False'''
 
                         if SETTINGS_OBJ.LIVES == 0:
                             highscore(screen)
@@ -270,7 +257,7 @@ def run(the_levels, screen):
                             #running = False
 
             ############################### Game over ##################################
-            if BRICKS_REMAINING <= 0:
+            if SETTINGS_OBJ.BRICKS_REMAINING <= 0:
                 current_level += 1
                 if PROMPTS:
                     score_prompt(screen)
@@ -278,10 +265,10 @@ def run(the_levels, screen):
             if not gtfo:
                 print("new game?")
 
-            #the_fps = clock.get_fps()
-            #print(the_fps)
+            if SETTINGS_OBJ.BRICKS_REMAINING <= 0:
+                in_level = False
 
-            clock.tick(120)
+            clock.tick(SETTINGS_OBJ.FPS)
 
 def main():
 

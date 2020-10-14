@@ -113,7 +113,7 @@ def new_level_bricks(screen):
                 else:
                     hits = 0
 
-                brick = Brick(brick_pos_x, brick_pos_y, BRICK_SIZE_X, BRICK_SIZE_Y, image, screen, True, False, pwup, hits)
+                brick = Brick(brick_pos_x, brick_pos_y, SETTINGS_OBJ.BRICK_SIZE, BRICK_SIZE_Y, image, screen, True, False, pwup, hits)
                 bricks.append(brick)
             brick_pos_x += 80
             b_no += 1
