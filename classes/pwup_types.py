@@ -1,7 +1,7 @@
+from config.settings_create import SETTINGS_OBJ
 
 
 ################################ pw ups ################################
-from config.settings_create import SETTINGS_OBJ
 
 
 def pwup_activate(x):

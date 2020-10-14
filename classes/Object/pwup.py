@@ -32,9 +32,9 @@ class Pwup:
         return True
 
 
-
-    def determ_pwup(self):
-        pass
+    @property
+    def pwup_type_return(self):
+        return self.pwup_type
 
     def draw_pwup(self):
         self.screen.blit(self.pwup_image, (self.x, self.y))

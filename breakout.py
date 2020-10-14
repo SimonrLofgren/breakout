@@ -140,8 +140,9 @@ def run(the_levels, screen):
 
 
     # test pwups
-    d_pwup = Pwup(200, 50, 1, 1, PWUP_ADD_LIFE, 30, screen)
-    a_pwup = Pwup(100, 100, 1, 1, PWUP_ADD_LIFE, 30, screen)
+    pwup_type_no = 0
+    d_pwup = Pwup(200, 50, 1, pwup_type_no, PWUP_ADD_LIFE_img, 30, screen)
+    a_pwup = Pwup(100, 100, 1, pwup_type_no, PWUP_ADD_LIFE_img, 30, screen)
     pwups = [d_pwup, a_pwup]
 
     while running and gtfo:
@@ -199,7 +200,7 @@ def run(the_levels, screen):
                 red_hearts[h].draw(screen)
 
             fps_counter(screen, clock)
-
+            print(SETTINGS_OBJ.LIVES)
             for b in balls:
                 b.Draw()
                 b.Move()
@@ -225,7 +226,7 @@ def run(the_levels, screen):
                 p.move()
                 if bounce_brick.collide(p):
                     try:
-                        #TODO pwup_activate("insert pwup type here")
+                        pwup_activate(p.pwup_type)
                         pwups.remove(p)
 
                     except:
@@ -243,7 +244,7 @@ def run(the_levels, screen):
                 for ball in balls:
                     if Ball_img.dead(ball):
                         lose_life(balls)
-                        red_hearts.pop()
+                        #red_hearts.pop()
                         SETTINGS_OBJ.change_LIVES(-1)
                         sleep(1)
 
