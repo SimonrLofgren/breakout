@@ -13,4 +13,4 @@ class Settings:
         self.DIFFICULTY = new
 
     def change_LIVES(self, new):
-        self.LIVES = new
+        self.LIVES += new

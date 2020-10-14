@@ -1,5 +1,6 @@
 
 
+
 class Heart:
     def __init__(self, x, y, image):
         self.x = x
@@ -19,5 +20,5 @@ class Heart:
         return self.image
 
 
-    def draw(self):
+    def draw(self, screen):
         screen.blit(self.image, (self.x, self.y))

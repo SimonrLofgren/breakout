@@ -1,3 +1,5 @@
+from classes.Object.pwup import Pwup
+from classes.pwup_types import pwup_activate
 from initialize import *
 from time import sleep
 #from Level.lvl_editor import Brick
@@ -5,7 +7,6 @@ from Level.lvls import *
 from initialize.bouncebrick_create import create_bouncebrick
 #from classes.Object.ball import Ball
 from classes.Object.ball_img import Ball_img
-from Menu.start_menu import start_menu
 from engine.collision_control import *
 from config.settings_create import *
 import random
@@ -138,11 +139,10 @@ def run(the_levels, screen):
     gtfo = True
 
 
-    ''' # test pwups
+    # test pwups
     d_pwup = Pwup(200, 50, 1, 1, PWUP_ADD_LIFE, 30, screen)
     a_pwup = Pwup(100, 100, 1, 1, PWUP_ADD_LIFE, 30, screen)
     pwups = [d_pwup, a_pwup]
-    '''
 
     while running and gtfo:
 
@@ -190,14 +190,14 @@ def run(the_levels, screen):
 
             screen.fill(BLACK)
 
-            #TODO fix bg
-            #screen_bg.blit(bg, (0, 0))
 
 #################################### Draw and Move phase ####################################
             screen.blit(bg, (0, 0))
             bounce_brick.draw()
             draw_heart(screen, gray_hearts)
-            draw_heart(screen, red_hearts)
+            for h in range(SETTINGS_OBJ.LIVES):
+                red_hearts[h].draw(screen)
+
             fps_counter(screen, clock)
 
             for b in balls:
@@ -220,12 +220,16 @@ def run(the_levels, screen):
 
 
 #################################### pwups ####################################
-            ''' for p in pwups:
+            for p in pwups:
                 p.draw_pwup()
                 p.move()
-                if pwup_tracker(p, bounce_brick):
-                    pwups.remove(p)
-            '''
+                if bounce_brick.collide(p):
+                    try:
+                        #TODO pwup_activate("insert pwup type here")
+                        pwups.remove(p)
+
+                    except:
+                        print("pwup went wrong")
 ###############################################################################
 
             #bounce_brick.ai(ball.x)
@@ -240,7 +244,6 @@ def run(the_levels, screen):
                     if Ball_img.dead(ball):
                         lose_life(balls)
                         red_hearts.pop()
-                        #LIVES -= 1
                         SETTINGS_OBJ.change_LIVES(-1)
                         sleep(1)
 

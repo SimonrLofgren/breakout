@@ -24,13 +24,13 @@ class BounceBrick(Object):
     def right(self):
         return self.x + self.width
 
-
     def collide(self, other):
         if self.left >= other.right or other.left >= self.right:
             return False
         if self.top >= other.bottom or other.top >= self.bottom:
             return False
         return True
+
 
     def draw(self):
         # pygame.draw.rect(self.screen, self.color, (self.x, self.y, self.width, self.height))

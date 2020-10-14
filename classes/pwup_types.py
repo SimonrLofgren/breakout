@@ -1,16 +1,41 @@
-from config import *
+
 
 ################################ pw ups ################################
+from config.settings_create import SETTINGS_OBJ
 
 
-def declining_pwup():
-    pass
+def pwup_activate(x):
+    if x == 0:
+        life_up()
+
+    if x == 1:
+        pass
+
+    if x == 2:
+        pass
+
+    if x == 3:
+        pass
+
+    if x == 4:
+        pass
+
+    if x == 5:
+        pass
+
+    if x == 6:
+        pass
+
+
+
+
+
 
 
 def life_up():
-    global LIVES
-    if LIVES <= 2:
-        LIVES += 1
+
+    if SETTINGS_OBJ.LIVES <= 2:
+        SETTINGS_OBJ.change_LIVES(1)
 
 def ball_add():
     global NO_OF_BALLS
