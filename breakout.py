@@ -1,16 +1,15 @@
+from classes.Object.pwup import Pwup
 from classes.pwup_types import pwup_activate
 from initialize import *
 from time import sleep
-#from Level.lvl_editor import Brick
 from Level.lvls import *
 from initialize.bouncebrick_create import create_bouncebrick
-#from classes.Object.ball import Ball
 from classes.Object.ball_img import Ball_img
 from engine.collision_control import *
 from config.settings_create import *
 import random
 
-from initialize.pwups_create import pwup_create, pwup_data_obj_create
+from initialize.pwups_create import pwup_data_obj_create
 
 
 def lvl_prompt(screen, lvl):
@@ -99,16 +98,10 @@ def draw_heart(screen, hearts):
     for h in hearts:
         screen.blit(h.the_image, (h.x_pos, h.y_pos))
 
-def lose_life(balls):
-    for b in balls:
-        b.Reset()
+def remove_ball(ball, balls):
 
-def bg_load():
-    bg = pygame.image.load("sprites/spaceBG_w_black.png").convert_alpha()
-    return bg
-
-def create_ball():
-    return pygame.image.load("sprites/balls/metalball_14_ro.png").convert_alpha()
+    balls.remove(ball)
+    SETTINGS_OBJ.change_NO_OF_BALLS(-1)
 
 def keeping_score(screen):
 
@@ -141,12 +134,7 @@ def run(the_levels, screen):
     gtfo = True
 
 
-    # test pwups
-    '''pwup_type_no = 0
-    d_pwup = Pwup(200, 50, 1, pwup_type_no, PWUP_ADD_LIFE_img, 30, screen)
-    a_pwup = Pwup(100, 100, 1, pwup_type_no, PWUP_ADD_LIFE_img, 30, screen)
-    pwups = [d_pwup, a_pwup]
-'''
+
     while running and gtfo:
 
         ''' start menu '''
@@ -169,10 +157,7 @@ def run(the_levels, screen):
 
         # create start ball
         balls = []
-        for i in range(NO_OF_BALLS):
-            ball = Ball_img(random.randrange(200, 300), random.randrange(300, 500), SETTINGS_OBJ.DIFFICULTY, -SETTINGS_OBJ.DIFFICULTY, BLACK, ball_image, BALL_SIZE, screen, False, True)
-            balls.append(ball)
-
+        balls.append(Ball_img.create_ball(SETTINGS_OBJ, screen))
         #################################### create bouncebrick #######################################
 
         bounce_brick = create_bouncebrick(screen)
@@ -204,7 +189,11 @@ def run(the_levels, screen):
                 red_hearts[h].draw(screen)
 
             fps_counter(screen, clock)
-            print(SETTINGS_OBJ.LIVES)
+
+            if SETTINGS_OBJ.NO_OF_BALLS > len(balls):
+                balls.append(Ball_img.create_ball(SETTINGS_OBJ, screen))
+
+
             for b in balls:
                 b.Draw()
                 b.Move()
@@ -226,8 +215,20 @@ def run(the_levels, screen):
 
 #################################### pwups ####################################
             if pwup_data_obj.go:
-                pwups.append(pwup_create(screen, pwup_data_obj))
+                pwups.append(Pwup.pwup_create(screen, pwup_data_obj))
                 pwup_data_obj.set(False, 0, 0, 0)
+
+            print(SETTINGS_OBJ.NO_OF_BALLS)
+
+
+
+
+
+
+
+
+
+
 
             for p in pwups:
                 p.draw_pwup()
@@ -236,7 +237,7 @@ def run(the_levels, screen):
                     try:
                         pwup_activate(p.pwup_type)
                         pwups.remove(p)
-                        pwup_data_obj.set(False, 0)
+
 
                     except:
                         print("pwup went wrong")
@@ -252,9 +253,11 @@ def run(the_levels, screen):
             if DEATH:
                 for ball in balls:
                     if Ball_img.dead(ball):
-                        lose_life(balls)
-                        SETTINGS_OBJ.change_LIVES(-1)
-                        sleep(1)
+                        remove_ball(ball, balls)
+                        if SETTINGS_OBJ.NO_OF_BALLS <=0:
+                            SETTINGS_OBJ.change_LIVES(-1)
+                            SETTINGS_OBJ.change_NO_OF_BALLS(1)
+                            sleep(1)
 
                         '''if LIVES == 0:
                             highscore(SCORE, screen)

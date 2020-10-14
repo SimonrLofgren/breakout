@@ -9,7 +9,7 @@ def pwup_activate(x):
         life_up()
 
     if x == 1:
-        pass
+        ball_add()
 
     if x == 2:
         pass
@@ -38,8 +38,8 @@ def life_up():
         SETTINGS_OBJ.change_LIVES(1)
 
 def ball_add():
-    global NO_OF_BALLS
-    NO_OF_BALLS += 1
+
+    SETTINGS_OBJ.change_NO_OF_BALLS(1)
 
 def bricksize_big():
     pass

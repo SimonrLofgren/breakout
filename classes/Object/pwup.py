@@ -1,3 +1,6 @@
+from initialize.pwups_create import Pwup_sprites
+
+
 class Pwup:
     def __init__(self, x, y, y_speed, pwup_type, pwup_image, cube, screen):
         self.x = x
@@ -41,3 +44,12 @@ class Pwup:
 
     def move(self):
         self.y += self.y_speed
+
+    @staticmethod
+    def pwup_create(screen, pwup_data_obj):
+        type = pwup_data_obj.no
+        y_speed = 1
+
+        pwup = Pwup(pwup_data_obj.x, pwup_data_obj.y, y_speed, type, Pwup_sprites().ret_sprite(type), 30, screen)
+
+        return pwup
