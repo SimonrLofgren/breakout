@@ -61,3 +61,6 @@ class Brick:
 
     def is_bouncy_return(self):
         return self.is_bouncy
+
+    def pwup_return(self):
+        return self.pwup

@@ -2,6 +2,8 @@ from classes.Object.Brick import *
 from classes.Object.Bouncebrick import *
 from config.settings_create import SETTINGS_OBJ
 from config import *
+
+
 '''
 def pwup_tracker(pwup,bb):
 
@@ -12,23 +14,23 @@ def pwup_tracker(pwup,bb):
 '''
 
 
-def collision_pos(ball, br, bricks_on_screen):
+def collision_pos(ball, br, bricks_on_screen, pwup_t_or_f_obj):
     if br.collide(ball):
         if br.left <= ball.right <= br.left + SETTINGS_OBJ.DIFFICULTY:
             ball.x_step = -SETTINGS_OBJ.DIFFICULTY
-            hit(br, bricks_on_screen)
+            hit(br, bricks_on_screen, pwup_t_or_f_obj)
 
         if br.right >= ball.left >= br.right - SETTINGS_OBJ.DIFFICULTY:
             ball.x_step = SETTINGS_OBJ.DIFFICULTY
-            hit(br, bricks_on_screen)
+            hit(br, bricks_on_screen, pwup_t_or_f_obj)
 
         if br.top <= ball.bottom <= br.top + SETTINGS_OBJ.DIFFICULTY:
             ball.y_step = -SETTINGS_OBJ.DIFFICULTY
-            hit(br, bricks_on_screen)
+            hit(br, bricks_on_screen, pwup_t_or_f_obj)
 
         if br.bottom >= ball.top >= br.bottom - SETTINGS_OBJ.DIFFICULTY:
             ball.y_step = SETTINGS_OBJ.DIFFICULTY
-            hit(br, bricks_on_screen)
+            hit(br, bricks_on_screen, pwup_t_or_f_obj)
 
 
 
@@ -62,16 +64,15 @@ def bouncebrick_hit(ball, BounceBrick):
         if BounceBrick.bottom >= ball.top >= BounceBrick.bottom - SETTINGS_OBJ.DIFFICULTY:
             ball.y_step = SETTINGS_OBJ.DIFFICULTY
 
-def hit(obj, objects):
+def hit(obj, objects, pwup_t_or_f_obj):
     if not Object.is_indestructable(obj):
         global BRICKS_REMAINING
 
         if Brick.hit_count(obj) == 0:
             try:
+                pwup_t_or_f_obj.set(True, Brick.pwup_return(obj), obj.x, obj.y)
                 objects.remove(obj)
                 print(SETTINGS_OBJ.SCORE)
-
-                print("rätt")
                 SETTINGS_OBJ.change_SCORE(50)
                 BRICKS_REMAINING = BRICKS_REMAINING - 1
             except:

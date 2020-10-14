@@ -16,4 +16,4 @@ bg = bg_load()
 red_hearts = create_red_hearts()
 gray_hearts = create_gray_hearts()
 ball_image = create_ball()
-PWUP_ADD_LIFE_img = pygame.image.load("sprites/pwups/lifeplus_pwup.png")
+

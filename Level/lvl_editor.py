@@ -37,31 +37,31 @@ def imgtype(b):
 def pwuptype(b):
 
     if b == 0:
-        return YELLOW_B
+        pass
 
     if b == 1:
-        return
+        pass
 
     if b == 2:
-        return BLUE_B
+        pass
 
     if b == 3:
-        return GREEN_B
+        pass
 
     if b == 4:
-        return CYAN_B
+        pass
 
     if b == 5:
-        return MAGENTA_B
+        pass
 
     if b == 6:
-        return BRICKBRICK_B
+        pass
 
     if b == 7:
-        return STONE_B
+        pass
 
     if b == 8:
-        return GOLD_B
+        pass
 
 def new_level_bricks(screen):
 
@@ -98,6 +98,7 @@ def new_level_bricks(screen):
             if b != None:
                 image = imgtype(b[0])
                 ab = b[0]
+                pwup = b[1]
                 if ab > 5 and ab < 9:
 
                     if ab == 6:
@@ -111,9 +112,6 @@ def new_level_bricks(screen):
 
                 else:
                     hits = 0
-                if b[1] != 0:
-                    pwup = pwuptype(b[1])
-
 
                 brick = Brick(brick_pos_x, brick_pos_y, BRICK_SIZE_X, BRICK_SIZE_Y, image, screen, True, False, pwup, hits)
                 bricks.append(brick)

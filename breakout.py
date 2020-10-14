@@ -1,4 +1,3 @@
-from classes.Object.pwup import Pwup
 from classes.pwup_types import pwup_activate
 from initialize import *
 from time import sleep
@@ -10,6 +9,9 @@ from classes.Object.ball_img import Ball_img
 from engine.collision_control import *
 from config.settings_create import *
 import random
+
+from initialize.pwups_create import pwup_create, pwup_data_obj_create
+
 
 def lvl_prompt(screen, lvl):
     screen.fill(BLACK)
@@ -140,11 +142,11 @@ def run(the_levels, screen):
 
 
     # test pwups
-    pwup_type_no = 0
+    '''pwup_type_no = 0
     d_pwup = Pwup(200, 50, 1, pwup_type_no, PWUP_ADD_LIFE_img, 30, screen)
     a_pwup = Pwup(100, 100, 1, pwup_type_no, PWUP_ADD_LIFE_img, 30, screen)
     pwups = [d_pwup, a_pwup]
-
+'''
     while running and gtfo:
 
         ''' start menu '''
@@ -171,10 +173,12 @@ def run(the_levels, screen):
             ball = Ball_img(random.randrange(200, 300), random.randrange(300, 500), SETTINGS_OBJ.DIFFICULTY, -SETTINGS_OBJ.DIFFICULTY, BLACK, ball_image, BALL_SIZE, screen, False, True)
             balls.append(ball)
 
-        ##########################################################################
-        # create bouncebrick
+        #################################### create bouncebrick #######################################
+
         bounce_brick = create_bouncebrick(screen)
 
+        pwup_data_obj = pwup_data_obj_create()
+        pwups = []
         ############### in game loop ###############
         in_level = True   # Main arg
         while in_level and gtfo:
@@ -214,13 +218,17 @@ def run(the_levels, screen):
                 ### Collision? ###
                 for ball in balls:
                     if Brick.is_bouncy(br):
-                        collision_pos(ball, br, bricks_on_screen)
+                        collision_pos(ball, br, bricks_on_screen, pwup_data_obj)
 
             for ball in balls:
                 bouncebrick_hit(ball, bounce_brick)
 
 
 #################################### pwups ####################################
+            if pwup_data_obj.go:
+                pwups.append(pwup_create(screen, pwup_data_obj))
+                pwup_data_obj.set(False, 0, 0, 0)
+
             for p in pwups:
                 p.draw_pwup()
                 p.move()
@@ -228,6 +236,7 @@ def run(the_levels, screen):
                     try:
                         pwup_activate(p.pwup_type)
                         pwups.remove(p)
+                        pwup_data_obj.set(False, 0)
 
                     except:
                         print("pwup went wrong")
@@ -244,7 +253,6 @@ def run(the_levels, screen):
                 for ball in balls:
                     if Ball_img.dead(ball):
                         lose_life(balls)
-                        #red_hearts.pop()
                         SETTINGS_OBJ.change_LIVES(-1)
                         sleep(1)
 
