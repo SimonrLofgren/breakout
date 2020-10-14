@@ -1,7 +1,7 @@
 
 
 class Settings:
-    def __init__(self, DIFFICULTY, SCORE, LIVES, NO_OF_BALLS, BRICK_SIZE, BRICK_TYPE, FPS, BRICKS_REMAINING):
+    def __init__(self, DIFFICULTY, SCORE, LIVES, NO_OF_BALLS, BRICK_SIZE, BRICK_TYPE, FPS, BRICKS_REMAINING, CURRENT_LVL, NR_OF_LVL):
         self.DIFFICULTY = DIFFICULTY
         self.SCORE = SCORE
         self.LIVES = LIVES
@@ -10,6 +10,8 @@ class Settings:
         self.BRICK_TYPE = BRICK_TYPE
         self.FPS = FPS
         self.BRICKS_REMAINING = BRICKS_REMAINING
+        self.CURRENT_LVL = CURRENT_LVL
+        self.NR_OF_LVL = NR_OF_LVL
 
     def change_SCORE(self, new):
         self.SCORE += new
@@ -44,3 +46,9 @@ class Settings:
 
     def change_BRICKS_REMAINING(self, x):
         self.BRICKS_REMAINING = x
+
+    def change_CURRENT_LVL(self):
+        self.CURRENT_LVL += 1
+
+    def change_NR_OF_LVL(self, x):
+        self.NR_OF_LVL = x

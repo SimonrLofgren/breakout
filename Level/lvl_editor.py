@@ -1,4 +1,6 @@
 import pygame
+
+from Level.lvl_1 import lvl_1_grid
 from config import *
 from classes.pwup_types import *
 from classes.BRICKS_INDEX import *
@@ -63,7 +65,7 @@ def pwuptype(b):
     if b == 8:
         pass
 
-def new_level_bricks(screen):
+def new_level_bricks(screen, i):
 
     grid = [1, 1, 1, 0, 0, 0, 1, 1, 1,
             1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -72,14 +74,9 @@ def new_level_bricks(screen):
             1, 1, 1, 0, 0, 0, 1, 1, 1,
             1, 1, 1, 0, 0, 0, 1, 1, 1]
 
-    grid_t_f = [B0, B1, B2, B3, B4, B5, B6, B7, B8,
-                B9, B10, B11, B12, B13, B14, B15, B16, B17,
-                B18, B19, B20, B21, B22, B23, B24, B25, B26,
-                B27, B28, B29, B30, B31, B32, B33, B34, B35,
-                B36, B37, B38, B39, B40, B41, B42, B43, B44,
-                B45, B46, B47, B48, B49, B50, B51, B52, B53]
 
 
+    lvl_list = [lvl_0_grid, lvl_1_grid]
 
     bricks = []
     pwups = []
@@ -89,11 +86,13 @@ def new_level_bricks(screen):
     brick_pos_y = 20
     b_no = 0
     hits = 0
+    SETTINGS_OBJ.change_NR_OF_LVL(len(lvl_list))
+    active_lvl = lvl_list[i]
     for l in range(lines):
         brick_pos_x = 50
         brick_pos_y += 30
         for line_no in range(9):
-            b = grid_t_f[b_no]
+            b = active_lvl[b_no]
 
             if b != None:
                 image = imgtype(b[0])

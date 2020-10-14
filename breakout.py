@@ -133,7 +133,7 @@ def run(the_levels, screen):
         gtfo = True
 
         ''' put lvl objects in list '''
-        bricks_on_screen = Lvl.return_bricks(the_levels[current_level])
+        bricks_on_screen = Lvl.return_bricks(the_levels[SETTINGS_OBJ.CURRENT_LVL])
         SETTINGS_OBJ.change_BRICKS_REMAINING(len(bricks_on_screen))
 
 
@@ -267,7 +267,7 @@ def run(the_levels, screen):
 
             if SETTINGS_OBJ.BRICKS_REMAINING <= 0:
                 in_level = False
-
+                SETTINGS_OBJ.change_CURRENT_LVL()
             clock.tick(SETTINGS_OBJ.FPS)
 
 def main():
