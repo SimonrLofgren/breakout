@@ -1,6 +1,6 @@
-import pygame
-
-from Level.lvl_1 import lvl_1_grid
+from Level.Levels.lvl_1 import lvl_1_grid
+from Level.Levels.lvl_2 import lvl_2_grid
+from Level.Levels.lvl_3 import lvl_3_grid
 from config import *
 from classes.pwup_types import *
 from classes.BRICKS_INDEX import *
@@ -65,7 +65,36 @@ def pwuptype(b):
     if b == 8:
         pass
 
+
+def hits_to_destroy(b_type):
+    """
+
+    :param b_type: the type of brick represented with an int.
+    :return: nr of hits required to destroy brick.
+    """
+
+    if b_type > 5 and b_type < 9:
+
+        if b_type == 6:
+            return 1
+
+        elif b_type == 7:
+            return 2
+
+        elif b_type == 8:
+            return 3
+
+    else:
+        return 0
+
+
 def new_level_bricks(screen, i):
+    """
+
+    :param screen: default screen
+    :param i: indicates the active lvl to be created.
+    :return: returns a list of the bricks for a lvl as objects. ready to be blited to screen.
+    """
 
     grid = [1, 1, 1, 0, 0, 0, 1, 1, 1,
             1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -76,18 +105,15 @@ def new_level_bricks(screen, i):
 
 
 
-    lvl_list = [lvl_0_grid, lvl_1_grid]
+    raw_lvl_list = [lvl_0_grid, lvl_1_grid, lvl_2_grid, lvl_3_grid]
 
     bricks = []
-    pwups = []
-    image = 0
-    pwup = 0
     lines = 6
     brick_pos_y = 20
     b_no = 0
-    hits = 0
-    SETTINGS_OBJ.change_NR_OF_LVL(len(lvl_list))
-    active_lvl = lvl_list[i]
+    SETTINGS_OBJ.change_NR_OF_LVL(len(raw_lvl_list))
+    active_lvl = raw_lvl_list[i]
+
     for l in range(lines):
         brick_pos_x = 50
         brick_pos_y += 30
@@ -96,24 +122,13 @@ def new_level_bricks(screen, i):
 
             if b != None:
                 image = imgtype(b[0])
-                ab = b[0]
-                pwup = b[1]
-                if ab > 5 and ab < 9:
+                b_type = b[0]
+                pwup_type = b[1]
+                hits = hits_to_destroy(b_type)
 
-                    if ab == 6:
-                        hits = 1
-
-                    elif ab == 7:
-                        hits = 2
-
-                    elif ab == 8:
-                        hits = 3
-
-                else:
-                    hits = 0
-
-                brick = Brick(brick_pos_x, brick_pos_y, SETTINGS_OBJ.BRICK_SIZE, BRICK_SIZE_Y, image, screen, True, False, pwup, hits)
+                brick = Brick(brick_pos_x, brick_pos_y, SETTINGS_OBJ.BRICK_SIZE, BRICK_SIZE_Y, image, screen, True, False, pwup_type, hits)
                 bricks.append(brick)
+
             brick_pos_x += 80
             b_no += 1
 

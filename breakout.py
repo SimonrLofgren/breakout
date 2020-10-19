@@ -8,7 +8,6 @@ from classes.Object.ball_img import Ball_img
 from engine.collision_control import *
 from config.settings_create import *
 import random
-
 from initialize.pwups_create import pwup_data_obj_create
 
 
@@ -114,30 +113,26 @@ def fps_counter(screen, clock):
 
 def run(the_levels, screen):
 
-    #random_bounce = [20, 40, -40]
-
-    pygame.init()
     clock = pygame.time.Clock()
     #game_intro(screen, clock)
     running = True
+    running_2 = True
     current_level = 0
-    gtfo = True
 
 
 
-    while running and gtfo:
+    while running and running_2:
 
         ''' start menu '''
-        #gtfo = start_menu(screen)
+        #running_2 = start_menu(screen)
+        running_2 = True
 
-        gtfo = True
-
-        ''' put lvl objects in list '''
+        # from the_levels[(active level)] unpack list from object to new list.
         bricks_on_screen = Lvl.return_bricks(the_levels[SETTINGS_OBJ.CURRENT_LVL])
+        # checks if all bricks are gone.
         SETTINGS_OBJ.change_BRICKS_REMAINING(len(bricks_on_screen))
 
-
-        # prompts on or off
+        # prompts on or off in SETTINGS
         if PROMPTS:
             lvl_prompt(screen, current_level + 1)
 
@@ -157,7 +152,7 @@ def run(the_levels, screen):
         speedtimer = Timer(0, 1200)
         ############### in game loop ###############
         in_level = True   # Main arg
-        while in_level and gtfo:
+        while in_level and running_2:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
@@ -262,7 +257,7 @@ def run(the_levels, screen):
                 if PROMPTS:
                     score_prompt(screen)
                 in_level = False
-            if not gtfo:
+            if not running_2:
                 print("new game?")
 
             if SETTINGS_OBJ.BRICKS_REMAINING <= 0:
