@@ -1,7 +1,7 @@
 
 from Level.lvl_editor import new_level_bricks
 from classes.Level import *
-from config.settings_create import SETTINGS_OBJ
+from initialize.settings_create import SETTINGS_OBJ
 
 
 def init_lvl(screen):

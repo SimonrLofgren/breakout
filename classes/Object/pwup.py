@@ -50,6 +50,6 @@ class Pwup:
         type = pwup_data_obj.no
         y_speed = 1
 
-        pwup = Pwup(pwup_data_obj.x, pwup_data_obj.y, y_speed, type, Pwup_sprites().ret_sprite(type), 30, screen)
+        pwup = Pwup(pwup_data_obj.x, pwup_data_obj.y, y_speed, type, Pwup_sprites().ret_sprite(type - 1), 30, screen)
 
         return pwup

@@ -1,11 +1,17 @@
-from Level.Levels.lvl_1 import lvl_1_grid
-from Level.Levels.lvl_2 import lvl_2_grid
-from Level.Levels.lvl_3 import lvl_3_grid
+import glob
 from config import *
 from classes.pwup_types import *
-from classes.BRICKS_INDEX import *
 from classes.Object.Brick import *
 from Level import *
+
+def read_level(file_name):
+    return [None if line.strip() == '0' else [int(value) for value in line.strip().split(', ')] for line in open(file_name) if "#" not in line]
+
+def read_all_levels():
+    files = glob.glob('Level/Levels/*.txt')
+    level_files = [file for file in files if 'lvl_' in file]
+    return [read_level(level) for level in level_files]
+
 
 def imgtype(b):
 
@@ -35,35 +41,6 @@ def imgtype(b):
 
     if b == 8:
         return GOLD_B.convert_alpha()
-
-def pwuptype(b):
-
-    if b == 0:
-        pass
-
-    if b == 1:
-        pass
-
-    if b == 2:
-        pass
-
-    if b == 3:
-        pass
-
-    if b == 4:
-        pass
-
-    if b == 5:
-        pass
-
-    if b == 6:
-        pass
-
-    if b == 7:
-        pass
-
-    if b == 8:
-        pass
 
 
 def hits_to_destroy(b_type):
@@ -96,16 +73,7 @@ def new_level_bricks(screen, i):
     :return: returns a list of the bricks for a lvl as objects. ready to be blited to screen.
     """
 
-    grid = [1, 1, 1, 0, 0, 0, 1, 1, 1,
-            1, 1, 1, 1, 1, 1, 1, 1, 1,
-            0, 0, 0, 1, 1, 1, 0, 0, 0,
-            0, 0, 0, 1, 1, 1, 0, 0, 0,
-            1, 1, 1, 0, 0, 0, 1, 1, 1,
-            1, 1, 1, 0, 0, 0, 1, 1, 1]
-
-
-
-    raw_lvl_list = [lvl_0_grid, lvl_1_grid, lvl_2_grid, lvl_3_grid]
+    raw_lvl_list = read_all_levels()
 
     bricks = []
     lines = 6
@@ -134,20 +102,3 @@ def new_level_bricks(screen, i):
 
 # list of bricks
     return bricks
-
-
-
-    '''
-    screen = lvl_screen
-    y = 10
-    lines = 6
-    objects = []
-    for l in range(lines):
-        x = 50
-        y += 30
-        color = colors[l+1]
-        for _ in range(9):
-            obst = breakout.Rect(x, y, BRICK_SIZE_X, BRICK_SIZE_Y, color, screen, True, False)
-            objects.append(obst)
-            x += 80
-    return objects'''

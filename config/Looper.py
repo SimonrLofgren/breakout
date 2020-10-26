@@ -1,9 +1,10 @@
 class Looper:
-    def __init__(self, main_menu, p1_menu, running, in_level):
+    def __init__(self, main_menu, p1_menu, running, in_level, in_pause):
         self.main_menu = main_menu
         self.p1_menu = p1_menu
         self.running = running
         self.in_level = in_level
+        self.in_pause = in_pause
 
     def set_main_menu(self, x):
         """
@@ -37,8 +38,17 @@ class Looper:
         """
         self.in_level = x
 
+    def set_in_pause(self, x):
+        '''
+
+        :param x: Bool
+        :return: None
+        '''
+        self.in_pause = x
+
     def quit(self):
         self.main_menu = False
         self.running = False
         self.in_level = False
         self.p1_menu = False
+        self.in_pause = False

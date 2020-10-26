@@ -1,6 +1,3 @@
-def main():
-    pass
+from config.Looper import Looper
 
-
-if __name__ == "__main__":
-    main()
+the_loops = Looper(True, True, True, True, True)

@@ -1,6 +1,6 @@
 
 from classes.Object import Object
-from config.settings_create import SETTINGS_OBJ
+from initialize.settings_create import SETTINGS_OBJ
 from initialize.bouncebrick_create import Bb_sprites
 
 
@@ -49,7 +49,7 @@ class BounceBrick(Object):
     @staticmethod
     def create_bouncebrick(screen, x):
 
-        bounce_brick = BounceBrick(100, 550, SETTINGS_OBJ.BRICK_SIZE, 20, screen,
+        bounce_brick = BounceBrick(100, 550, SETTINGS_OBJ.BOUNCEBRICK_SIZE, 20, screen,
                                    True, True, Bb_sprites().ret_sprite(x), SETTINGS_OBJ.BRICK_TYPE)
 
         return bounce_brick

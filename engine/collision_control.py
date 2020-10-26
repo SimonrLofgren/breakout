@@ -1,8 +1,7 @@
 from classes.Object.Brick import *
 from classes.Object.Bouncebrick import *
-from config.settings_create import SETTINGS_OBJ
-from config import *
-
+from initialize.settings_create import SETTINGS_OBJ
+from sounds import sound_brick_hit, sound_bouncebrick_hit
 
 '''
 def pwup_tracker(pwup,bb):
@@ -19,18 +18,26 @@ def collision_pos(ball, br, bricks_on_screen, pwup_t_or_f_obj):
         if br.left <= ball.right <= br.left + SETTINGS_OBJ.DIFFICULTY:
             ball.x_step = -SETTINGS_OBJ.DIFFICULTY
             hit(br, bricks_on_screen, pwup_t_or_f_obj)
+            if SETTINGS_OBJ.SOUND:
+                sound_brick_hit()
 
         if br.right >= ball.left >= br.right - SETTINGS_OBJ.DIFFICULTY:
             ball.x_step = SETTINGS_OBJ.DIFFICULTY
             hit(br, bricks_on_screen, pwup_t_or_f_obj)
+            if SETTINGS_OBJ.SOUND:
+                sound_brick_hit()
 
         if br.top <= ball.bottom <= br.top + SETTINGS_OBJ.DIFFICULTY:
             ball.y_step = -SETTINGS_OBJ.DIFFICULTY
             hit(br, bricks_on_screen, pwup_t_or_f_obj)
+            if SETTINGS_OBJ.SOUND:
+                sound_brick_hit()
 
         if br.bottom >= ball.top >= br.bottom - SETTINGS_OBJ.DIFFICULTY:
             ball.y_step = SETTINGS_OBJ.DIFFICULTY
             hit(br, bricks_on_screen, pwup_t_or_f_obj)
+            if SETTINGS_OBJ.SOUND:
+                sound_brick_hit()
 
 def speed_fix(p, balls):
     try:
@@ -60,34 +67,43 @@ def bouncebrick_hit(ball, BounceBrick):
         #left hit
         if BounceBrick.left <= ball.right <= BounceBrick.left + SETTINGS_OBJ.DIFFICULTY:
             ball.x_step = -SETTINGS_OBJ.DIFFICULTY
+            if SETTINGS_OBJ.SOUND:
+                sound_bouncebrick_hit()
 
         #right hit
         if BounceBrick.right >= ball.left >= BounceBrick.right - SETTINGS_OBJ.DIFFICULTY:
             ball.x_step = SETTINGS_OBJ.DIFFICULTY
-
+            if SETTINGS_OBJ.SOUND:
+                sound_bouncebrick_hit()
 ################################## top hit ######################################
 
         if BounceBrick.top <= ball.bottom <= BounceBrick.top + SETTINGS_OBJ.DIFFICULTY:
             ball.y_step = -SETTINGS_OBJ.DIFFICULTY
             if BounceBrick.left + (BounceBrick.width // 3) <= ball.mid <= BounceBrick.right - (BounceBrick.width // 3):
                 ball.x_step = 0
-                #FPS = FPS_HIGH_SPEED
+                if SETTINGS_OBJ.SOUND:
+                    sound_bouncebrick_hit()
             elif BounceBrick.left + BounceBrick.width // 2 < ball.mid:
                 ball.x_step = SETTINGS_OBJ.DIFFICULTY
-                #FPS = FPS_ORG
+                if SETTINGS_OBJ.SOUND:
+                    sound_bouncebrick_hit()
             else:
                 ball.x_step = -SETTINGS_OBJ.DIFFICULTY
-                #FPS = FPS_ORG
+                if SETTINGS_OBJ.SOUND:
+                    sound_bouncebrick_hit()
+
         if BounceBrick.bottom >= ball.top >= BounceBrick.bottom - SETTINGS_OBJ.DIFFICULTY:
             ball.y_step = SETTINGS_OBJ.DIFFICULTY
+            if SETTINGS_OBJ.SOUND:
+                sound_bouncebrick_hit()
 
 def hit(obj, objects, pwup_t_or_f_obj):
     if not Object.is_indestructable(obj):
-        global BRICKS_REMAINING
 
         if Brick.hit_count(obj) == 0:
             try:
-                pwup_t_or_f_obj.set(True, Brick.pwup_return(obj), obj.x, obj.y)
+                if Brick.pwup_return(obj) != 0:
+                    pwup_t_or_f_obj.set(True, Brick.pwup_return(obj), obj.x, obj.y)
                 objects.remove(obj)
                 SETTINGS_OBJ.change_SCORE(50)
                 SETTINGS_OBJ.change_BRICKS_REMAINING(SETTINGS_OBJ.BRICKS_REMAINING - 1)

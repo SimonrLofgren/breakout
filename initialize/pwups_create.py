@@ -22,8 +22,8 @@ class Pwup_sprites:
 
     def load_pwup_sprites(self):
 
-        pwup_sprites = [PWUP_ADD_LIFE_img, PWUP_BALL_ADD_img, PWUP_BRICK_PLUS, PWUP_BRICK_MINUS,
-                        PWUP_BALL_FAST, PWUP_BALL_SLOW, PWUP_BALL_FLAME, PWUP_UNDEAD, PWUP_DEATH]
+        pwup_sprites = [PWUP_BALL_ADD_img, PWUP_BRICK_PLUS, PWUP_BRICK_MINUS,
+                        PWUP_BALL_FAST, PWUP_BALL_SLOW, PWUP_BALL_FLAME, PWUP_UNDEAD, PWUP_DEATH, PWUP_ADD_LIFE_img]
 
         return [pygame.image.load(img) for img in pwup_sprites]
 

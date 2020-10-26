@@ -1,12 +1,12 @@
-from config.settings_create import SETTINGS_OBJ
+from initialize.settings_create import SETTINGS_OBJ
 
 
 ################################ pw ups ################################
 
 
 def pwup_activate(x):
-    if x == 0:
-        life_up()
+    if x == 0 or x == 6:
+        pass
 
     if x == 1:
         ball_add()
@@ -32,6 +32,8 @@ def pwup_activate(x):
     if x == 9:
         dead()
 
+    if x == 10:
+        life_up()
 
 
 
