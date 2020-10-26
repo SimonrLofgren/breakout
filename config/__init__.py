@@ -33,8 +33,8 @@ SCORE = 0
 
 BALL_SIZE = 7
 
-DEATH = False
-#DEATH = True
+#DEATH = False
+DEATH = True
 PROMPTS = False
 #PROMPTS = True
 

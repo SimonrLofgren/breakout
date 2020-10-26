@@ -61,11 +61,11 @@ def ballspeed_fast():
 
 def ballspeed_slow():
     SETTINGS_OBJ.change_DIFFICULTY(2)
-    SETTINGS_OBJ.change_FPS(60)
+    SETTINGS_OBJ.change_FPS(90)
 
 def ballspeed_normal():
     SETTINGS_OBJ.change_DIFFICULTY(2)
-    SETTINGS_OBJ.change_FPS(90)
+    SETTINGS_OBJ.change_FPS(110)
 
 def flameball():
     pass

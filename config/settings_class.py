@@ -2,7 +2,7 @@
 
 class Settings:
     def __init__(self, DIFFICULTY, SCORE, LIVES, NO_OF_BALLS, BRICK_SIZE, BRICK_TYPE, FPS, BRICKS_REMAINING,
-                 CURRENT_LVL, NR_OF_LVL, BOUNCEBRICK_SIZE, SOUND):
+                 CURRENT_LVL, NR_OF_LVL, BOUNCEBRICK_SIZE, SOUND, B_BRICK_SPEED):
         self.DIFFICULTY = DIFFICULTY
         self.SCORE = SCORE
         self.LIVES = LIVES
@@ -15,6 +15,7 @@ class Settings:
         self.NR_OF_LVL = NR_OF_LVL
         self.BOUNCEBRICK_SIZE = BOUNCEBRICK_SIZE
         self.SOUND = SOUND
+        self.B_BRICK_SPEED = B_BRICK_SPEED
 
     def change_SCORE(self, new):
         self.SCORE += new
@@ -73,3 +74,6 @@ class Settings:
 
     def SOUND_ON(self):
         self.SOUND = True
+
+    def change_B_BRICK_SPEED(self, x):
+        self.B_BRICK_SPEED = x

@@ -66,10 +66,10 @@ def run_the_game(the_levels, screen):
             keys = pygame.key.get_pressed()
             if keys[pygame.K_LEFT]:
                 if not bounce_brick.x <= -10:
-                    bounce_brick.x -= B_BRICK_SPEED
+                    bounce_brick.x -= SETTINGS_OBJ.B_BRICK_SPEED
             if keys[pygame.K_RIGHT]:
                 if not bounce_brick.x >= SCREEN_WIDTH + 10:
-                    bounce_brick.x += B_BRICK_SPEED
+                    bounce_brick.x += SETTINGS_OBJ.B_BRICK_SPEED
 
 
                 #TODO timer
@@ -141,7 +141,7 @@ def run_the_game(the_levels, screen):
 
             ### RESTORE SPEED ###
             if speedtimer.pwup_timer():
-                if SETTINGS_OBJ.FPS != 90:
+                if SETTINGS_OBJ.FPS != 110:
                     ballspeed_normal()
                     speed_fix(5, balls)
 
