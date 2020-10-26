@@ -13,5 +13,5 @@ red_hearts = create_red_hearts()
 gray_hearts = create_gray_hearts()
 ball_image = pygame.image.load("sprites/balls/metalball_14_ro.png").convert_alpha()
 
-
+clock = pygame.time.Clock()
 

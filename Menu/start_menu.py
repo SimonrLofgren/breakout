@@ -1,10 +1,5 @@
 import pygame
-import random
 from config import *
-from time import sleep
-
-
-#STANDARD_FONT = pygame.font.SysFont('impact.ttf', 50)
 
 class Menu_rect:
     def __init__(self, center_x, center_y, font, text, text_color, button_color):
@@ -69,15 +64,15 @@ class Menu_rect:
         return self.button_color
 
 
-def start_menu(screen):
+def main_menu(screen):
     click = False
-    global IN_START
     IN_START = True
+    menu_choice = 0
+
     while IN_START:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 IN_START = False
-                return False
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     click = True
@@ -98,31 +93,35 @@ def start_menu(screen):
 
 ############################ Player 1 ############################
         if 120 < mouse_x < 120 + 250 and 310 < mouse_y < 360:
-            #print("inside 1")
+            print("inside 1")
             if click:
-                p1_menu(screen)
+                menu_choice = 1
+                IN_START = False
 ############################ Player 2 ############################
         if 425 < mouse_x < 675 and 310 < mouse_y < 360:
             print("inside 2")
             if click:
                 #print("Click!!!")
                 quiter = ""
-                return quiter
+                menu_choice = 2
+                IN_START = False
 ############################ Highscore ############################
         if 250 < mouse_x < 550 and 410 < mouse_y < 460:
-            #print("inside high")
+            print("inside high")
             if click:
                 print("Click!!!")
-
+                menu_choice = 3
+                IN_START = False
 ############################ Easter BOING ############################
-        if 120 < mouse_x < 120 + 250 and 310 < mouse_y < 360:
+        """if 120 < mouse_x < 120 + 250 and 310 < mouse_y < 360:
             print("inside boing")
             if click:
                 print("Click!!!")
-
+                menu_choice = 4
+                IN_START = False"""
 
         click = False
-    return True
+    return menu_choice
 
 def p1_menu(screen):
     global IN_START

@@ -30,5 +30,9 @@ class Pwup_sprites:
 
 
 def pwup_data_obj_create():
+    """
+
+    :return: Returns a pwup object.
+    """
     pwup_data_obj = Pwup_data(False, 0, 0, 0)
     return pwup_data_obj

@@ -1,3 +1,5 @@
+from Menu.start_menu import main_menu
+from app.run import run_ed2
 from classes.Object.pwup import Pwup
 from classes.pwup_types import pwup_activate, ballspeed_normal
 from engine.pwup_control import Timer
@@ -113,8 +115,8 @@ def fps_counter(screen, clock):
 
 def run(the_levels, screen):
 
-    clock = pygame.time.Clock()
-    #game_intro(screen, clock)
+
+
     running = True
     running_2 = True
     current_level = 0
@@ -122,13 +124,15 @@ def run(the_levels, screen):
 
 
     while running and running_2:
-
-        ''' start menu '''
-        #running_2 = start_menu(screen)
-        running_2 = True
+        
+        # init start menu
+        running_2 = main_menu(screen)
+        # temp value
+        #running_2 = True
 
         # from the_levels[(active level)] unpack list from object to new list.
         bricks_on_screen = Lvl.return_bricks(the_levels[SETTINGS_OBJ.CURRENT_LVL])
+
         # checks if all bricks are gone.
         SETTINGS_OBJ.change_BRICKS_REMAINING(len(bricks_on_screen))
 
@@ -136,23 +140,28 @@ def run(the_levels, screen):
         if PROMPTS:
             lvl_prompt(screen, current_level + 1)
 
-        ########################### Test image ball ##############################
-        #TODO (FIX RAND RANGE, heading)
-
-
         # create start ball
         balls = []
         balls.append(Ball_img.create_ball(SETTINGS_OBJ, screen))
-        #################################### create bouncebrick #######################################
 
+        # create bouncebrick
         bounce_brick = BounceBrick.create_bouncebrick(screen, SETTINGS_OBJ.BRICK_TYPE)
 
+        # a False pwup object
         pwup_data_obj = pwup_data_obj_create()
+
+        # a list of active pwups
         pwups = []
+
+        # pwup timer
         speedtimer = Timer(0, 1200)
+
         ############### in game loop ###############
         in_level = True   # Main arg
+
         while in_level and running_2:
+
+            # input control
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
@@ -164,77 +173,82 @@ def run(the_levels, screen):
             if keys[pygame.K_RIGHT]:
                 bounce_brick.x += B_BRICK_SPEED
 
+            # clear screen
             screen.fill(BLACK)
 
+            ### Draw and Move phase ###
 
-#################################### Draw and Move phase ####################################
+            # Draw Background
             screen.blit(bg, (0, 0))
-            ####### Bouncebrick ########
+
+            # Bouncebrick
             if SETTINGS_OBJ.BRICK_TYPE != bounce_brick.type:
                 bounce_brick = BounceBrick.create_bouncebrick(screen, SETTINGS_OBJ.BRICK_TYPE)
             bounce_brick.draw()
 
+            # hearts
             draw_heart(screen, gray_hearts)
             for h in range(SETTINGS_OBJ.LIVES):
                 red_hearts[h].draw(screen)
 
+            # FPS counter on screen
             fps_counter(screen, clock)
 
+            # multiple balls
             if SETTINGS_OBJ.NO_OF_BALLS > len(balls):
                 balls.append(Ball_img.create_ball(SETTINGS_OBJ, screen))
 
-
+            # draw balls
             for b in balls:
                 b.Draw()
                 b.Move()
 
-
-                #bounce_brick.ai(b.left - random.choice(random_bounce))
-
-
+            # draw bricks
             for br in bricks_on_screen:
                 br.draw()
-                ### Collision? ###
+                # Check if ball collide
                 for ball in balls:
                     if Brick.is_bouncy(br):
                         collision_pos(ball, br, bricks_on_screen, pwup_data_obj)
 
+            # check if ball collide withe bouncebrick
             for ball in balls:
-
                 bouncebrick_hit(ball, bounce_brick)
 
 
-#################################### pwups ####################################
+            ### pwups ###
+            # if brick has pwup
             if pwup_data_obj.go:
                 pwups.append(Pwup.pwup_create(screen, pwup_data_obj))
                 pwup_data_obj.set(False, 0, 0, 0)
-
+            # draw pwups
             for p in pwups:
                 p.draw_pwup()
                 p.move()
+
+                # check if pwup collide with bouncebrick
                 if bounce_brick.collide(p):
                     try:
                         pwup_activate(p.pwup_type)
                     except:
                         print("pwup went wrong")
+                    # improved direction controll. still buggy
                     speed_fix(p, balls)
                     pwups.remove(p)
 
-########################## RESTORE SPEED ##########################
+            ### RESTORE SPEED ###
             if speedtimer.pwup_timer():
                 if SETTINGS_OBJ.FPS != 90:
                     ballspeed_normal()
                     speed_fix(5, balls)
 
-
-###############################################################################
-
-            #bounce_brick.ai(ball.x)
+            # score prompt
             keeping_score(screen)
+
             pygame.display.update()
 
 
-            ############################# DEATH #############################
+            ### Game over ###
 
             if DEATH:
                 for ball in balls:
@@ -251,24 +265,26 @@ def run(the_levels, screen):
                             in_level = False
                             #running = False
 
-            ############################### Game over ##################################
+            ### Win ###
             if SETTINGS_OBJ.BRICKS_REMAINING <= 0:
                 current_level += 1
                 if PROMPTS:
                     score_prompt(screen)
                 in_level = False
-            if not running_2:
-                print("new game?")
 
+            # next level
             if SETTINGS_OBJ.BRICKS_REMAINING <= 0:
                 in_level = False
                 SETTINGS_OBJ.change_CURRENT_LVL()
+
+            # game pace
             clock.tick(SETTINGS_OBJ.FPS)
 
 def main():
 
     the_levels = init_lvl(screen)
     run(the_levels, screen)
+    #run_ed2(the_levels, screen)
 
 if __name__ == "__main__":
     main()
