@@ -1,3 +1,4 @@
+
 from classes.Object import *
 from config import SCREEN_HIGHT, SCREEN_WIDTH, BALL_SIZE
 from initialize import ball_image

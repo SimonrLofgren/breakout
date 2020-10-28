@@ -8,7 +8,7 @@ from initialize import screen
 from level_editor.level_editor import editor
 from sounds import play_soundtrack
 
-#the_levels = init_lvl(screen)
+
 
 def run_ed2():
     play_soundtrack()

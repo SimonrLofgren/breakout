@@ -37,6 +37,7 @@ def run_the_game(the_levels, screen):
 
         # create start ball
         balls = []
+
         balls.append(Ball_img.create_ball(SETTINGS_OBJ, screen))
 
         # create bouncebrick
@@ -96,6 +97,7 @@ def run_the_game(the_levels, screen):
             fps_counter(screen, clock)
 
             # multiple balls
+            SETTINGS_OBJ.change_NO_OF_BALLS()
             if SETTINGS_OBJ.NO_OF_BALLS > len(balls):
                 balls.append(Ball_img.create_ball(SETTINGS_OBJ, screen))
 

@@ -1,0 +1,13 @@
+först: Rum söder 1. välkomstrummet, med en "npc" som föklarar ramar, spelregler och kommandon. ger uppmaning till vad du ska göra.
+
+rum 0. (1 steg norr om välkomstrummet,
+
+
+
+Varje rum ska vara en egen klass - hur för vi över "pengar" och "liv" mellan klasserna/rummen?
+
+Hur använder vi oss av wasd för att gå? Och hur kan vi eventuellt intergrera en karta? kanske preview av nästa rum rent utsagt?
+typ "du står framför en dörr, som leder til välkomstrummet,". hur många steg ska varje rum ha? 1-3?
+
+
+jag ska ha en karta i form av text. så väggar kan vara XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX te.x
