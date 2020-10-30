@@ -178,9 +178,7 @@ def run_the_game(the_levels, screen):
                 current_level += 1
                 if PROMPTS:
                     score_prompt(screen)
-                the_loops.set_in_level(False)
-                the_loops.set_main_menu(True)
-                the_loops.set_running(False)
+
 
             # next level
             if SETTINGS_OBJ.BRICKS_REMAINING <= 0:

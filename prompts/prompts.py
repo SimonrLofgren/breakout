@@ -85,7 +85,7 @@ def highscore(screen):
                 add_high = False
     if add_high:
         new_highscore_prompt(screen)
-        with open("Highscore_txt.txt", "a") as high:
+        with open("./app/highscore/Highscore_txt.txt", "a") as high:
             high.write("\n"+str(SETTINGS_OBJ.SCORE))
     else:
         final_score_prompt(screen)
