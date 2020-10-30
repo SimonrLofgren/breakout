@@ -10,10 +10,9 @@ from classes.Object.Brick import Brick
 from classes.Object.ball_img import Ball_img
 from classes.Object.pwup import Pwup
 from classes.pwup_types import pwup_activate, ballspeed_normal
-from config import PROMPTS, B_BRICK_SPEED, BLACK, DEATH, SCREEN_WIDTH
+from config import PROMPTS, BLACK, SCREEN_WIDTH
 from initialize.settings_create import SETTINGS_OBJ
 from engine.collision_control import collision_pos, bouncebrick_hit, speed_fix, remove_ball
-from engine.pwup_control import Timer
 from initialize import bg, gray_hearts, red_hearts, clock
 from initialize.pwups_create import pwup_data_obj_create
 from sounds import sound_pwup_hit
@@ -50,7 +49,7 @@ def run_the_game(the_levels, screen):
         pwups = []
 
         # pwup timer
-        speedtimer = Timer(0, 1200)
+        #speedtimer = Timer(0, 1200)
 
         ############### in game loop ###############
         the_loops.set_in_level(True)
@@ -140,11 +139,13 @@ def run_the_game(the_levels, screen):
                     speed_fix(p, balls)
                     pwups.remove(p)
 
-            ### RESTORE SPEED ###
-            if speedtimer.pwup_timer():
+
+            if SETTINGS_OBJ.get_TIMER():
                 if SETTINGS_OBJ.FPS != 110:
                     ballspeed_normal()
                     speed_fix(5, balls)
+                    if not SETTINGS_OBJ.CHEATS:
+                        SETTINGS_OBJ.set_DEATH(True)
 
             # score prompt
             keeping_score(screen)
@@ -154,7 +155,7 @@ def run_the_game(the_levels, screen):
 
             ### Game over ###
 
-            if DEATH:
+            if SETTINGS_OBJ.DEATH:
                 for ball in balls:
                     if Ball_img.dead(ball):
                         remove_ball(ball, balls)
@@ -165,9 +166,11 @@ def run_the_game(the_levels, screen):
 
 
                         if SETTINGS_OBJ.LIVES == 0:
+                            the_loops.set_in_level(False)
                             highscore(screen)
                             the_loops.set_in_level(False)
-
+                            the_loops.set_main_menu(True)
+                            the_loops.set_running(False)
                             #running = False
 
             ### Win ###
@@ -176,6 +179,8 @@ def run_the_game(the_levels, screen):
                 if PROMPTS:
                     score_prompt(screen)
                 the_loops.set_in_level(False)
+                the_loops.set_main_menu(True)
+                the_loops.set_running(False)
 
             # next level
             if SETTINGS_OBJ.BRICKS_REMAINING <= 0:

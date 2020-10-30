@@ -1,8 +1,9 @@
+import time
 
 
 class Settings:
     def __init__(self, DIFFICULTY, SCORE, LIVES, NO_OF_BALLS, BRICK_SIZE, BRICK_TYPE, FPS, BRICKS_REMAINING,
-                 CURRENT_LVL, NR_OF_LVL, BOUNCEBRICK_SIZE, SOUND, B_BRICK_SPEED):
+                 CURRENT_LVL, NR_OF_LVL, BOUNCEBRICK_SIZE, SOUND, B_BRICK_SPEED, TIMER, TIMER_DUR, DEATH, CHEATS):
         self.DIFFICULTY = DIFFICULTY
         self.SCORE = SCORE
         self.LIVES = LIVES
@@ -16,6 +17,10 @@ class Settings:
         self.BOUNCEBRICK_SIZE = BOUNCEBRICK_SIZE
         self.SOUND = SOUND
         self.B_BRICK_SPEED = B_BRICK_SPEED
+        self.TIMER = TIMER
+        self.TIMER_DUR = TIMER_DUR
+        self.DEATH = DEATH
+        self.CHEATS = CHEATS
 
     def change_SCORE(self, new):
         self.SCORE += new
@@ -77,3 +82,35 @@ class Settings:
 
     def change_B_BRICK_SPEED(self, x):
         self.B_BRICK_SPEED = x
+
+    def set_TIMER(self, t):
+        """
+
+        :param t: set duration of timer
+        :return: NONE
+        """
+        self.TIMER = int(time.perf_counter())
+        print(self.TIMER)
+        self.TIMER_DUR = t
+
+    def get_TIMER(self):
+
+        current_time = int(time.perf_counter())
+        print(current_time)
+        print(self.TIMER)
+        print("_____________________________")
+        if current_time == self.TIMER + self.TIMER_DUR:
+            return True
+        else:
+            return False
+
+    def set_DEATH(self, x):
+        """
+
+        :param x: Bool
+        :return:NONE
+        """
+        self.DEATH = x
+
+    def set_CHEATS(self, x):
+        self.CHEATS = x

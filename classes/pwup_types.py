@@ -1,3 +1,4 @@
+from config import STANDARD_TIMER_DUR
 from initialize.settings_create import SETTINGS_OBJ
 
 
@@ -18,16 +19,20 @@ def pwup_activate(x):
         bricksize_small()
 
     if x == 4:
+        SETTINGS_OBJ.set_TIMER(STANDARD_TIMER_DUR)
         ballspeed_fast()
 
     if x == 5:
+        SETTINGS_OBJ.set_TIMER(STANDARD_TIMER_DUR)
         ballspeed_slow()
 
     if x == 7:
         flameball()
+        SETTINGS_OBJ.set_TIMER(10)
 
     if x == 8:
         undead()
+        SETTINGS_OBJ.set_TIMER(20)
 
     if x == 9:
         dead()
@@ -71,9 +76,9 @@ def flameball():
     pass
 
 def undead():
-    pass
+    SETTINGS_OBJ.set_DEATH(False)
 def dead():
-    pass
+    SETTINGS_OBJ.change_LIVES(-1)
 
 def bricksize_normal():
     SETTINGS_OBJ.change_BRICK_TYPE(0)

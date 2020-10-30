@@ -15,5 +15,7 @@ ball_image = pygame.image.load("sprites/balls/metalball_14_ro.png").convert_alph
 pause_img = pygame.image.load("sprites/menu/pause1.png").convert_alpha()
 pause_off_img = pygame.image.load("sprites/menu/pause_sound_off.png").convert_alpha()
 pause_on_img = pygame.image.load("sprites/menu/pause_sound_on.png").convert_alpha()
+easter_on = pygame.image.load("sprites/easter_on.png").convert_alpha()
+easter_off = pygame.image.load("sprites/easter_off.png").convert_alpha()
 clock = pygame.time.Clock()
 

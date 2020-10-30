@@ -107,12 +107,12 @@ def main_menu(screen):
                 the_loops.set_main_menu(False)
 
 ############################ Easter BOING ############################
-        """if 120 < mouse_x < 120 + 250 and 310 < mouse_y < 360:
+        if 530 < mouse_x < 550 + 180 and 70 < mouse_y < 170:
             print("inside boing")
             if click:
                 print("Click!!!")
                 menu_choice = 4
-                IN_START = False"""
+                the_loops.set_main_menu(False)
 
         click = False
     return menu_choice

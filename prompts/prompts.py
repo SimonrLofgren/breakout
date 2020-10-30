@@ -3,7 +3,7 @@ from time import sleep
 
 import pygame
 
-from config import BLACK, colors, SCREEN_WIDTH, SCREEN_HIGHT, RED, WHITE
+from config import BLACK, colors, SCREEN_WIDTH, SCREEN_HIGHT, RED, WHITE, BLUE
 from initialize.settings_create import SETTINGS_OBJ
 from initialize import STANDARD_FONT
 
@@ -67,7 +67,7 @@ def new_highscore_prompt(screen):
 def highscore(screen):
 
     add_high = True
-    with open("Highscore_txt.txt", "r") as high:
+    with open("./app/highscore/Highscore_txt.txt", "r") as high:
         text = high.readlines()
         text_int = []
         for line in text:

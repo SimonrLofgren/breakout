@@ -12,10 +12,13 @@ BRICKS_REMAINING = 0
 CURRENT_LVL = 0
 SOUND = True
 B_BRICK_SPEED = 4
+TIMER = 0
+DEATH = True
+CHEATS = False
 
 files = glob.glob('Level/Levels/*.txt')
 lvl_files = [file for file in files if 'lvl_' in file]
 NR_OF_LVL = len(lvl_files)
 
 SETTINGS_OBJ = Settings(DIFFICULTY, SCORE, LIVES, NO_OF_BALLS, BRICK_SIZE, BRICK_TYPE, FPS,
-                        BRICKS_REMAINING, CURRENT_LVL, NR_OF_LVL, BOUNCEBRICK_SIZE, SOUND, B_BRICK_SPEED)
+                        BRICKS_REMAINING, CURRENT_LVL, NR_OF_LVL, BOUNCEBRICK_SIZE, SOUND, B_BRICK_SPEED, TIMER, 0, DEATH, CHEATS)

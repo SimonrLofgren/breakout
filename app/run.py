@@ -1,5 +1,6 @@
 from Level.lvls import init_lvl
 from Menu import the_loops
+from Menu.easter import easter
 from Menu.player_1_menu import player_1_menu
 from Menu.start_menu import main_menu
 from app.the_game import run_the_game
@@ -21,7 +22,8 @@ def run_ed2():
                 reset_game()
                 run_the_game(the_levels, screen)
             if choice == 1:
-                pass
+                the_loops.set_main_menu(True)
+
 
         elif menu_choice == 2:
             reset_game()
@@ -32,4 +34,4 @@ def run_ed2():
         elif menu_choice == 3:
             pass
         elif menu_choice == 4:
-            pass
+            easter(screen)
